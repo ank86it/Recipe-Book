@@ -363,9 +363,56 @@ let userName   = localStorage.getItem('recipe_user_name') || '';
 //  INIT
 // ══════════════════════════════════════════════════
 window.addEventListener('load', async () => {
-  if (!userName) { hideLoading(); showNamePrompt(); return; }
-  await loadData();
+  // ALWAYS show app immediately — never block on network
+  const cached = localStorage.getItem('recipe_cache');
+  if (cached) {
+    try {
+      const d = JSON.parse(cached);
+      recipes    = d.recipes    || [];
+      categories = d.categories || categories;
+    } catch(e) {}
+  }
+
+  hideLoading();
+
+  if (!userName) {
+    showNamePrompt();
+    // Sync in background after name is entered
+    return;
+  }
+
+  render();
+  // Sync from JSONBin in background — don't block UI
+  syncInBackground();
 });
+
+async function syncInBackground() {
+  setSyncStatus('orange', 'Syncing…');
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+    const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+      headers: { 'X-Master-Key': ACCESS_KEY, 'X-Bin-Meta': 'false' },
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const data = await r.json();
+    recipes    = Array.isArray(data.recipes)    ? data.recipes    : recipes;
+    categories = Array.isArray(data.categories) ? data.categories : categories;
+    localStorage.setItem('recipe_cache', JSON.stringify({ recipes, categories }));
+    render();
+    setSyncStatus('green', 'Synced ✓');
+    setLastSync();
+  } catch(e) {
+    if (e.name === 'AbortError') {
+      setSyncStatus('red', 'Sync timeout — showing cached data');
+    } else {
+      setSyncStatus('red', 'Offline — showing cached data');
+    }
+    console.error('Sync error:', e.message);
+  }
+}
 
 function hideLoading() { document.getElementById('loadingOverlay').style.display = 'none'; }
 
@@ -380,45 +427,15 @@ function saveName() {
   userName = n;
   localStorage.setItem('recipe_user_name', n);
   document.getElementById('nameModal').classList.remove('open');
-  loadData();
+  render();
+  syncInBackground();
 }
 
 // ══════════════════════════════════════════════════
 //  JSONBIN — LOAD & SAVE
 // ══════════════════════════════════════════════════
-async function loadData() {
-  setSyncStatus('orange', 'Loading…');
-  try {
-    const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-      method: 'GET',
-      headers: {
-        'X-Master-Key': ACCESS_KEY,
-        'X-Bin-Meta':   'false'
-      }
-    });
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    const data = await r.json();
-    // X-Bin-Meta:false returns data directly (no .record wrapper)
-    recipes    = Array.isArray(data.recipes)    ? data.recipes    : [];
-    categories = Array.isArray(data.categories) ? data.categories : categories;
-    localStorage.setItem('recipe_cache', JSON.stringify({ recipes, categories }));
-    setSyncStatus('green', 'Synced ✓');
-    setLastSync();
-  } catch(e) {
-    console.error('Load error:', e);
-    const cached = localStorage.getItem('recipe_cache');
-    if (cached) {
-      const d = JSON.parse(cached);
-      recipes    = d.recipes    || [];
-      categories = d.categories || categories;
-      setSyncStatus('red', 'Offline — showing cached data');
-    } else {
-      setSyncStatus('red', 'Could not load — check connection');
-    }
-  }
-  hideLoading();
-  render();
-}
+async function loadData()  { await syncInBackground(); }
+async function syncNow()   { showToast('🔄 Syncing…'); await syncInBackground(); }
 
 async function saveData() {
   setSyncStatus('orange', 'Saving…');
