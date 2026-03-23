@@ -148,21 +148,12 @@
     .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:#fdf6ec;padding:10px 20px;border-radius:28px;font-size:12px;font-weight:700;z-index:999;transition:transform 0.3s ease;white-space:nowrap}
     .toast.show{transform:translateX(-50%) translateY(0)}
 
-    /* LOADING OVERLAY */
-    #loadingOverlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:16px}
-    .spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    #loadingOverlay p{font-family:'Playfair Display',serif;font-size:18px;color:var(--muted)}
+    /* no loading overlay */
   </style>
 </head>
 <body>
 
-<!-- LOADING OVERLAY -->
-<div id="loadingOverlay">
-  <div style="font-size:48px">🍳</div>
-  <div class="spinner"></div>
-  <p>Loading recipes…</p>
-</div>
+<!-- NO LOADING SCREEN - app shows instantly -->
 
 <!-- HEADER -->
 <header>
@@ -362,8 +353,10 @@ let userName   = localStorage.getItem('recipe_user_name') || '';
 // ══════════════════════════════════════════════════
 //  INIT
 // ══════════════════════════════════════════════════
-window.addEventListener('load', async () => {
-  // ALWAYS show app immediately — never block on network
+function hideLoading() {} // no-op, overlay removed
+
+window.addEventListener('load', () => {
+  // Load from cache instantly
   const cached = localStorage.getItem('recipe_cache');
   if (cached) {
     try {
@@ -373,16 +366,9 @@ window.addEventListener('load', async () => {
     } catch(e) {}
   }
 
-  hideLoading();
-
-  if (!userName) {
-    showNamePrompt();
-    // Sync in background after name is entered
-    return;
-  }
+  if (!userName) { showNamePrompt(); return; }
 
   render();
-  // Sync from JSONBin in background — don't block UI
   syncInBackground();
 });
 
@@ -431,12 +417,6 @@ function saveName() {
   syncInBackground();
 }
 
-// ══════════════════════════════════════════════════
-//  JSONBIN — LOAD & SAVE
-// ══════════════════════════════════════════════════
-async function loadData()  { await syncInBackground(); }
-async function syncNow()   { showToast('🔄 Syncing…'); await syncInBackground(); }
-
 async function saveData() {
   setSyncStatus('orange', 'Saving…');
   try {
@@ -465,7 +445,11 @@ async function saveData() {
   }
 }
 
-async function testConnection() {
+// ══════════════════════════════════════════════════
+//  JSONBIN — LOAD & SAVE
+// ══════════════════════════════════════════════════
+async function loadData()  { await syncInBackground(); }
+async function syncNow()   { showToast('🔄 Syncing…'); await syncInBackground(); }
   showToast('🔄 Testing connection…');
   try {
     const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {

@@ -1,20 +1,19 @@
-// Minimal service worker — no aggressive caching, always fetch fresh
-const CACHE = 'kitchen-v3';
+// v4 — force update, clear all old caches
+const CACHE = 'kitchen-v4';
 
-self.addEventListener('install', e => {
-  self.skipWaiting();
-});
+self.addEventListener('install', () => self.skipWaiting());
 
 self.addEventListener('activate', e => {
-  // Delete ALL old caches
   e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.map(k => caches.delete(k)))
-    ).then(() => self.clients.claim())
+    caches.keys()
+      .then(keys => Promise.all(keys.map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
   );
 });
 
-// Network first, no caching — ensures always fresh
+// Always network first, no caching
 self.addEventListener('fetch', e => {
-  e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+  e.respondWith(
+    fetch(e.request).catch(() => new Response('Offline', { status: 503 }))
+  );
 });
