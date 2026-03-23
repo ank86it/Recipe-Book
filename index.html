@@ -11,314 +11,257 @@
   <title>Kitchen Recipes</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --bg:#fdf6ec; --surface:#fff8f0; --card:#fffcf7;
-      --border:#e8d5b7; --accent:#c0392b; --accent2:#e67e22;
-      --text:#2c1a0e; --muted:#8b6f47; --tag-bg:#fdebd0;
-      --green:#27ae60; --shadow:0 4px 24px rgba(44,26,14,0.10); --radius:16px;
-    }
+    :root{--bg:#fdf6ec;--surface:#fff8f0;--card:#fffcf7;--border:#e8d5b7;--accent:#c0392b;--accent2:#e67e22;--text:#2c1a0e;--muted:#8b6f47;--tag-bg:#fdebd0;--green:#27ae60;--shadow:0 4px 24px rgba(44,26,14,0.10);--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
     body{font-family:'Lato',sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;overflow-x:hidden}
-
-    /* HEADER */
     header{background:var(--text);color:#fdf6ec;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(44,26,14,0.25)}
     .logo{display:flex;align-items:center;gap:9px}
     .logo-icon{font-size:24px}
     .logo-text{font-family:'Playfair Display',serif;font-size:19px;line-height:1}
     .logo-sub{font-size:9px;color:#c8a97a;letter-spacing:2px;text-transform:uppercase;margin-top:2px}
-    .header-right{display:flex;gap:7px;align-items:center}
+    .hdr{display:flex;gap:7px;align-items:center}
     .hbtn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fdf6ec;border-radius:9px;padding:6px 11px;font-size:12px;font-family:'Lato',sans-serif;cursor:pointer;transition:background 0.2s;white-space:nowrap}
     .hbtn:hover{background:rgba(255,255,255,0.18)}
     .hbtn.active{background:var(--accent2);border-color:var(--accent2)}
-
-    /* SYNC BAR */
     #syncBar{background:var(--surface);border-bottom:1px solid var(--border);padding:6px 16px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--muted)}
     .dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:5px;vertical-align:middle}
-    .dot.green{background:var(--green)}
-    .dot.orange{background:var(--accent2);animation:pulse 1s infinite}
-    .dot.red{background:var(--accent)}
-    .dot.grey{background:#bbb}
+    .dot.green{background:var(--green)}.dot.orange{background:var(--accent2);animation:pulse 1s infinite}.dot.red{background:var(--accent)}.dot.grey{background:#bbb}
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
-
-    /* SEARCH */
     .search-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:11px 14px;display:flex;gap:9px;align-items:center}
-    .search-wrap{flex:1;position:relative}
-    .search-wrap input{width:100%;padding:10px 14px 10px 40px;border:1.5px solid var(--border);border-radius:11px;background:var(--card);font-size:15px;font-family:'Lato',sans-serif;color:var(--text);outline:none;transition:border-color 0.2s}
-    .search-wrap input:focus{border-color:var(--accent2)}
+    .sw{flex:1;position:relative}
+    .sw input{width:100%;padding:10px 14px 10px 40px;border:1.5px solid var(--border);border-radius:11px;background:var(--card);font-size:15px;font-family:'Lato',sans-serif;color:var(--text);outline:none;transition:border-color 0.2s}
+    .sw input:focus{border-color:var(--accent2)}
     .si{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--muted);pointer-events:none}
     .clr{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:16px;color:var(--muted);cursor:pointer;display:none}
-
-    /* CHIPS */
     .chips{display:flex;gap:7px;overflow-x:auto;padding:9px 14px;background:var(--surface);border-bottom:1px solid var(--border);scrollbar-width:none}
     .chips::-webkit-scrollbar{display:none}
     .chip{white-space:nowrap;padding:4px 13px;border-radius:20px;border:1.5px solid var(--border);background:var(--card);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;transition:all 0.18s;flex-shrink:0}
     .chip.active{background:var(--accent);border-color:var(--accent);color:white}
-
-    /* TABS */
     .tabs{display:flex;background:var(--surface);padding:0 14px;gap:4px;border-bottom:2px solid var(--border)}
     .tab{padding:8px 14px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.2s}
     .tab.active{color:var(--accent);border-color:var(--accent)}
-
-    /* GRID */
-    .grid-section{padding:14px}
-    .section-title{font-family:'Playfair Display',serif;font-size:17px;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:7px}
+    .gs{padding:14px}
+    .st{font-family:'Playfair Display',serif;font-size:17px;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:7px}
     .badge{background:var(--tag-bg);color:var(--muted);font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;font-family:'Lato',sans-serif}
-    .recipe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:13px}
-
-    /* CARD */
-    .recipe-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:transform 0.18s,box-shadow 0.18s;box-shadow:var(--shadow);position:relative}
-    .recipe-card:active{transform:scale(0.97)}
-    .recipe-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(44,26,14,0.15)}
-    .card-thumb{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
-    .card-ph{width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,#fdebd0,#e8d5b7);display:flex;align-items:center;justify-content:center;font-size:34px}
-    .card-body{padding:11px}
-    .card-title{font-family:'Playfair Display',serif;font-size:13px;font-weight:700;line-height:1.3;color:var(--text);margin-bottom:5px}
-    .card-meta{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:5px}
+    .rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:13px}
+    .rc{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:transform 0.18s,box-shadow 0.18s;box-shadow:var(--shadow);position:relative}
+    .rc:active{transform:scale(0.97)}.rc:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(44,26,14,0.15)}
+    .ct{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+    .cp{width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,#fdebd0,#e8d5b7);display:flex;align-items:center;justify-content:center;font-size:34px}
+    .cb{padding:11px}
+    .ctitle{font-family:'Playfair Display',serif;font-size:13px;font-weight:700;line-height:1.3;color:var(--text);margin-bottom:5px}
+    .cm{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:5px}
     .tag{background:var(--tag-bg);color:var(--muted);font-size:10px;font-weight:700;padding:2px 6px;border-radius:20px;text-transform:uppercase}
-    .card-desc{font-size:11px;color:var(--muted);line-height:1.5}
-    .play-ov{position:absolute;top:7px;right:7px;background:rgba(192,57,43,0.9);color:white;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:11px}
-    .del-btn{position:absolute;top:7px;left:7px;background:rgba(44,26,14,0.78);color:white;border:none;border-radius:50%;width:27px;height:27px;display:none;align-items:center;justify-content:center;font-size:12px;cursor:pointer}
-    .edit-mode .del-btn{display:flex}
-    .adder-badge{display:inline-block;background:#e8f5e9;color:#2e7d32;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;text-transform:uppercase}
-    .added-by{font-size:10px;color:var(--muted);margin-top:4px}
-
-    /* PLAY SHEET */
-    .backdrop{display:none;position:fixed;inset:0;background:rgba(20,10,4,0.76);z-index:500;align-items:flex-end;justify-content:center}
-    .backdrop.open{display:flex}
-    .play-sheet{background:var(--card);border-radius:24px 24px 0 0;width:100%;max-width:580px;overflow:hidden;animation:slideUp 0.25s ease;box-shadow:0 -8px 40px rgba(44,26,14,0.25)}
-    .ps-thumb{width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,#2c1a0e,#5a3620);background-size:cover;background-position:center;position:relative}
-    .ps-thumb::after{content:'▶';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:50px;color:rgba(255,255,255,0.85);text-shadow:0 4px 20px rgba(0,0,0,0.5)}
-    .ps-body{padding:16px 20px 26px;text-align:center}
-    .ps-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:5px}
-    .ps-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--text);margin-bottom:4px;line-height:1.3}
-    .ps-hint{font-size:12px;color:var(--muted);margin-bottom:16px}
-    .pbtn-red{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:14px;background:#ff0000;color:white;border:none;border-radius:12px;font-size:14px;font-weight:700;font-family:'Lato',sans-serif;cursor:pointer;margin-bottom:8px}
-    .pbtn-grey{display:block;width:100%;padding:12px;background:var(--tag-bg);color:var(--text);border:1.5px solid var(--border);border-radius:12px;font-size:13px;font-weight:700;font-family:'Lato',sans-serif;cursor:pointer;margin-bottom:8px}
-    .pbtn-cancel{display:block;width:100%;padding:10px;background:none;color:var(--muted);border:none;font-size:12px;font-family:'Lato',sans-serif;cursor:pointer}
-
-    /* BOTTOM SHEET */
-    .sheet-backdrop{display:none;position:fixed;inset:0;background:rgba(20,10,4,0.68);z-index:400;align-items:flex-end;justify-content:center}
-    .sheet-backdrop.open{display:flex}
-    .sheet{background:var(--card);border-radius:24px 24px 0 0;padding:22px 18px 30px;width:100%;max-width:580px;box-shadow:0 -8px 40px rgba(44,26,14,0.2);animation:slideUp 0.25s ease;max-height:92vh;overflow-y:auto}
-    @keyframes slideUp{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
-    .sheet h2{font-family:'Playfair Display',serif;font-size:19px;margin-bottom:15px}
-    .field{margin-bottom:12px}
-    .field label{display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
-    .field input,.field textarea{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:15px;font-family:'Lato',sans-serif;color:var(--text);background:var(--bg);outline:none;transition:border-color 0.2s}
-    .field input:focus,.field textarea:focus{border-color:var(--accent2)}
-    .field textarea{resize:vertical;min-height:60px}
-    .mactions{display:flex;gap:9px;margin-top:15px}
-    .btn-p{flex:1;padding:12px;background:var(--accent);color:white;border:none;border-radius:11px;font-size:14px;font-weight:700;font-family:'Lato',sans-serif;cursor:pointer}
-    .btn-s{padding:12px 16px;background:var(--tag-bg);color:var(--muted);border:none;border-radius:11px;font-size:14px;font-weight:700;font-family:'Lato',sans-serif;cursor:pointer}
-
-    /* MULTI CATEGORY PICKER */
-    .cat-picker{display:flex;flex-wrap:wrap;gap:7px;padding:8px 0 4px}
-    .cat-pick-chip{padding:5px 13px;border-radius:20px;border:1.5px solid var(--border);background:var(--card);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;transition:all 0.18s;user-select:none}
-    .cat-pick-chip.selected{background:var(--accent);border-color:var(--accent);color:white}
-    .cat-pick-chip:hover:not(.selected){border-color:var(--accent2);color:var(--text)}
-    .cat-pick-hint{font-size:11px;color:var(--muted);margin-top:3px}
-
-    /* CATEGORY MANAGER */
-    .cat-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;margin-bottom:8px}
-    .cat-row-name{font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
-    .cat-row-actions{display:flex;gap:6px}
-    .cat-action-btn{background:var(--tag-bg);border:none;border-radius:8px;padding:6px 10px;font-size:13px;cursor:pointer;transition:background 0.15s}
-    .cat-action-btn:hover{background:var(--border)}
-    .cat-action-btn.red{background:#fce4ec;color:var(--accent)}
-    .add-cat-row{display:flex;gap:8px;margin-top:6px}
-    .add-cat-row input{flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:14px;font-family:'Lato',sans-serif;color:var(--text);background:var(--bg);outline:none}
-    .add-cat-row input:focus{border-color:var(--accent2)}
-    .add-cat-row button{padding:9px 14px;background:var(--accent);color:white;border:none;border-radius:9px;font-size:13px;font-weight:700;font-family:'Lato',sans-serif;cursor:pointer}
-
-    /* NAME PROMPT */
-    .name-prompt{background:var(--card);border-radius:24px 24px 0 0;padding:22px 18px 30px;width:100%;max-width:580px;animation:slideUp 0.25s ease}
-    .name-prompt h2{font-family:'Playfair Display',serif;font-size:19px;margin-bottom:8px}
-    .name-prompt p{font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.5}
-
-    /* OWNER PIN */
-    .owner-badge{background:#fff3e0;color:#e65100;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;display:inline-block;margin-left:6px}
-
-    /* EMPTY / NO RESULTS */
+    .cd{font-size:11px;color:var(--muted);line-height:1.5}
+    .pov{position:absolute;top:7px;right:7px;background:rgba(192,57,43,0.9);color:white;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:11px}
+    .db{position:absolute;top:7px;left:7px;background:rgba(44,26,14,0.78);color:white;border:none;border-radius:50%;width:27px;height:27px;display:none;align-items:center;justify-content:center;font-size:12px;cursor:pointer}
+    .em .db{display:flex}
+    .ab{display:inline-block;background:#e8f5e9;color:#2e7d32;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;text-transform:uppercase}
+    .aby{font-size:10px;color:var(--muted);margin-top:4px}
+    .ob{background:#fff3e0;color:#e65100;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;display:inline-block;margin-left:6px}
+    .bd{display:none;position:fixed;inset:0;background:rgba(20,10,4,0.76);z-index:500;align-items:flex-end;justify-content:center}
+    .bd.open{display:flex}
+    .ps{background:var(--card);border-radius:24px 24px 0 0;width:100%;max-width:580px;overflow:hidden;animation:su 0.25s ease;box-shadow:0 -8px 40px rgba(44,26,14,0.25)}
+    .pst{width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,#2c1a0e,#5a3620);background-size:cover;background-position:center;position:relative}
+    .pst::after{content:'▶';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:50px;color:rgba(255,255,255,0.85);text-shadow:0 4px 20px rgba(0,0,0,0.5)}
+    .psb{padding:16px 20px 26px;text-align:center}
+    .psl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:5px}
+    .pstitle{font-family:'Playfair Display',serif;font-size:18px;color:var(--text);margin-bottom:4px;line-height:1.3}
+    .psh{font-size:12px;color:var(--muted);margin-bottom:16px}
+    .pr{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:14px;background:#ff0000;color:white;border:none;border-radius:12px;font-size:14px;font-weight:700;font-family:'Lato',sans-serif;cursor:pointer;margin-bottom:8px}
+    .pg{display:block;width:100%;padding:12px;background:var(--tag-bg);color:var(--text);border:1.5px solid var(--border);border-radius:12px;font-size:13px;font-weight:700;font-family:'Lato',sans-serif;cursor:pointer;margin-bottom:8px}
+    .pc{display:block;width:100%;padding:10px;background:none;color:var(--muted);border:none;font-size:12px;font-family:'Lato',sans-serif;cursor:pointer}
+    .sbd{display:none;position:fixed;inset:0;background:rgba(20,10,4,0.68);z-index:400;align-items:flex-end;justify-content:center}
+    .sbd.open{display:flex}
+    .sh{background:var(--card);border-radius:24px 24px 0 0;padding:22px 18px 30px;width:100%;max-width:580px;box-shadow:0 -8px 40px rgba(44,26,14,0.2);animation:su 0.25s ease;max-height:92vh;overflow-y:auto}
+    @keyframes su{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
+    .sh h2{font-family:'Playfair Display',serif;font-size:19px;margin-bottom:15px}
+    .fi{margin-bottom:12px}
+    .fi label{display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+    .fi input,.fi textarea{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:15px;font-family:'Lato',sans-serif;color:var(--text);background:var(--bg);outline:none;transition:border-color 0.2s}
+    .fi input:focus,.fi textarea:focus{border-color:var(--accent2)}
+    .fi textarea{resize:vertical;min-height:60px}
+    .ma{display:flex;gap:9px;margin-top:15px}
+    .bp{flex:1;padding:12px;background:var(--accent);color:white;border:none;border-radius:11px;font-size:14px;font-weight:700;font-family:'Lato',sans-serif;cursor:pointer}
+    .bs{padding:12px 16px;background:var(--tag-bg);color:var(--muted);border:none;border-radius:11px;font-size:14px;font-weight:700;font-family:'Lato',sans-serif;cursor:pointer}
+    .cpc{display:flex;flex-wrap:wrap;gap:7px;padding:8px 0 4px}
+    .cpc-chip{padding:5px 13px;border-radius:20px;border:1.5px solid var(--border);background:var(--card);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;transition:all 0.18s;user-select:none}
+    .cpc-chip.sel{background:var(--accent);border-color:var(--accent);color:white}
+    .cpc-chip:hover:not(.sel){border-color:var(--accent2);color:var(--text)}
+    .cph{font-size:11px;color:var(--muted);margin-top:3px}
+    .cr{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;margin-bottom:8px}
+    .crn{font-size:14px;font-weight:700;color:var(--text)}
+    .cra{display:flex;gap:6px}
+    .cab{background:var(--tag-bg);border:none;border-radius:8px;padding:6px 10px;font-size:13px;cursor:pointer}
+    .cab.red{background:#fce4ec;color:var(--accent)}
+    .acr{display:flex;gap:8px;margin-top:6px}
+    .acr input{flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:14px;font-family:'Lato',sans-serif;color:var(--text);background:var(--bg);outline:none}
+    .acr input:focus{border-color:var(--accent2)}
+    .acr button{padding:9px 14px;background:var(--accent);color:white;border:none;border-radius:9px;font-size:13px;font-weight:700;font-family:'Lato',sans-serif;cursor:pointer}
+    .np{background:var(--card);border-radius:24px 24px 0 0;padding:22px 18px 30px;width:100%;max-width:580px;animation:su 0.25s ease}
+    .np h2{font-family:'Playfair Display',serif;font-size:19px;margin-bottom:8px}
+    .np p{font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.5}
     .empty{text-align:center;padding:46px 18px;color:var(--muted)}
     .empty .icon{font-size:50px;margin-bottom:13px}
     .empty h3{font-family:'Playfair Display',serif;font-size:19px;color:var(--text);margin-bottom:6px}
-    .no-res{display:none;text-align:center;padding:36px 18px;color:var(--muted)}
-
-    /* TOAST */
-    .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:#fdf6ec;padding:10px 20px;border-radius:28px;font-size:12px;font-weight:700;z-index:999;transition:transform 0.3s ease;white-space:nowrap}
+    .nr{display:none;text-align:center;padding:36px 18px;color:var(--muted)}
+    .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:#fdf6ec;padding:10px 20px;border-radius:28px;font-size:12px;font-weight:700;z-index:999;transition:transform 0.3s ease;white-space:nowrap;max-width:90vw;text-overflow:ellipsis;overflow:hidden}
     .toast.show{transform:translateX(-50%) translateY(0)}
-
-    /* no loading overlay */
   </style>
 </head>
 <body>
 
-<!-- NO LOADING SCREEN - app shows instantly -->
-
-<!-- HEADER -->
 <header>
   <div class="logo">
     <div class="logo-icon">🍳</div>
-    <div>
-      <div class="logo-text">Kitchen Recipes</div>
-      <div class="logo-sub">Shared Collection</div>
-    </div>
+    <div><div class="logo-text">Kitchen Recipes</div><div class="logo-sub">Shared Collection</div></div>
   </div>
-  <div class="header-right">
+  <div class="hdr">
     <button class="hbtn" id="editBtn" onclick="toggleEditMode()">✏️ Edit</button>
     <button class="hbtn" onclick="openAddModal()">+ Add</button>
   </div>
 </header>
 
-<!-- SYNC BAR -->
 <div id="syncBar">
   <span><span class="dot grey" id="syncDot"></span><span id="syncMsg">Loading…</span></span>
   <span style="display:flex;gap:8px;align-items:center">
     <span id="syncTime"></span>
-    <button onclick="testConnection()" style="background:none;border:none;color:var(--muted);font-size:11px;cursor:pointer;text-decoration:underline">test</button>
+    <button onclick="testConn()" style="background:none;border:none;color:var(--muted);font-size:11px;cursor:pointer;text-decoration:underline;font-family:'Lato',sans-serif">test</button>
   </span>
 </div>
 
-<!-- SEARCH -->
 <div class="search-bar">
-  <div class="search-wrap">
+  <div class="sw">
     <span class="si">🔍</span>
     <input type="text" id="searchInput" placeholder="Search recipes, categories…" oninput="onSearch(this.value)"/>
     <button class="clr" id="clearBtn" onclick="clearSearch()">✕</button>
   </div>
 </div>
 
-<!-- CHIPS -->
 <div class="chips" id="chipsBar"></div>
 
-<!-- TABS -->
 <div class="tabs">
   <button class="tab active" id="tabAll" onclick="switchTab('all')">All Recipes</button>
   <button class="tab" id="tabFav" onclick="switchTab('favorites')">⭐ Favorites</button>
 </div>
 
-<!-- GRID -->
-<div class="grid-section">
-  <div class="section-title"><span>📋</span> All Recipes <span class="badge" id="countBadge">0</span></div>
-  <div class="recipe-grid" id="recipeGrid"></div>
-  <div class="no-res" id="noResults"><div style="font-size:42px;margin-bottom:9px">🥗</div><p>No recipes match your search.</p></div>
+<div class="gs">
+  <div class="st"><span>📋</span> All Recipes <span class="badge" id="countBadge">0</span></div>
+  <div class="rg" id="recipeGrid"></div>
+  <div class="nr" id="noResults"><div style="font-size:42px;margin-bottom:9px">🥗</div><p>No recipes match your search.</p></div>
 </div>
 
-<!-- EDIT PANEL -->
 <div id="editPanel" style="display:none;background:var(--surface);border-top:2px solid var(--border);padding:12px 16px">
-  <div style="font-family:'Playfair Display',serif;font-size:15px;margin-bottom:10px;color:var(--text)">✏️ Edit Mode <span class="owner-badge" id="ownerBadge" style="display:none">OWNER</span></div>
+  <div style="font-family:'Playfair Display',serif;font-size:15px;margin-bottom:10px;color:var(--text)">✏️ Edit Mode <span class="ob" id="ownerBadge" style="display:none">OWNER</span></div>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
-    <button class="hbtn" style="background:var(--accent2);border-color:var(--accent2)" onclick="openCategoryManager()">🏷️ Manage Categories</button>
+    <button class="hbtn" style="background:var(--accent2);border-color:var(--accent2)" onclick="openCatMgr()">🏷️ Manage Categories</button>
     <button class="hbtn" style="background:var(--surface);color:var(--muted);border-color:var(--border)" onclick="syncNow()">🔄 Sync Now</button>
-    <button class="hbtn" style="background:var(--surface);color:var(--muted);border-color:var(--border)" id="ownerPinBtn" onclick="openOwnerPin()">🔐 Owner PIN</button>
+    <button class="hbtn" style="background:var(--surface);color:var(--muted);border-color:var(--border)" onclick="openOwnerPin()">🔐 Owner PIN</button>
   </div>
   <div style="font-size:11px;color:var(--muted);margin-top:8px" id="editHint">Tap 🗑 on any recipe card to delete it (owner only)</div>
 </div>
 
 <!-- VIDEO MODAL -->
-<div class="backdrop" id="videoModal" onclick="if(event.target===this)closeVideo()">
-  <div class="play-sheet">
-    <div class="ps-thumb" id="psThumb"></div>
-    <div class="ps-body">
-      <div class="ps-label">▶ Ready to Watch</div>
-      <div class="ps-title" id="videoTitle"></div>
-      <div class="ps-hint">Choose how to open this recipe video</div>
-      <button class="pbtn-red" onclick="openYTApp()">▶ Open in YouTube App</button>
-      <button class="pbtn-grey" onclick="openYTBrowser()">🌐 Open in Browser</button>
-      <button class="pbtn-cancel" onclick="closeVideo()">✕ Cancel</button>
+<div class="bd" id="videoModal" onclick="if(event.target===this)closeVideo()">
+  <div class="ps">
+    <div class="pst" id="psThumb"></div>
+    <div class="psb">
+      <div class="psl">▶ Ready to Watch</div>
+      <div class="pstitle" id="videoTitle"></div>
+      <div class="psh">Choose how to open this recipe video</div>
+      <button class="pr" onclick="openYTApp()">▶ Open in YouTube App</button>
+      <button class="pg" onclick="openYTBrowser()">🌐 Open in Browser</button>
+      <button class="pc" onclick="closeVideo()">✕ Cancel</button>
     </div>
   </div>
 </div>
 
-<!-- ADD / EDIT SHEET -->
-<div class="sheet-backdrop" id="addModal" onclick="if(event.target===this)closeAddModal()">
-  <div class="sheet">
+<!-- ADD/EDIT MODAL -->
+<div class="sbd" id="addModal" onclick="if(event.target===this)closeAddModal()">
+  <div class="sh">
     <h2 id="modalHeading">Add New Recipe</h2>
-    <div class="field"><label>Recipe Name *</label><input type="text" id="fName" placeholder="e.g. Grandma's Pasta"/></div>
-    <div class="field"><label>YouTube URL *</label><input type="url" id="fUrl" placeholder="https://www.youtube.com/watch?v=..."/></div>
-    <div class="field">
+    <div class="fi"><label>Recipe Name *</label><input type="text" id="fName" placeholder="e.g. Grandma's Pasta"/></div>
+    <div class="fi"><label>YouTube URL *</label><input type="url" id="fUrl" placeholder="https://www.youtube.com/watch?v=..."/></div>
+    <div class="fi">
       <label>Categories <span style="font-weight:400;text-transform:none;letter-spacing:0">(tap to select multiple)</span></label>
-      <div class="cat-picker" id="catPicker"></div>
-      <div class="cat-pick-hint" id="catPickHint">None selected</div>
+      <div class="cpc" id="catPicker"></div>
+      <div class="cph" id="catPickHint">None selected</div>
     </div>
-    <div class="field"><label>Notes (optional)</label><textarea id="fNotes" placeholder="Quick notes…"></textarea></div>
-    <div class="field" style="display:flex;align-items:center;gap:9px">
+    <div class="fi"><label>Notes (optional)</label><textarea id="fNotes" placeholder="Quick notes…"></textarea></div>
+    <div class="fi" style="display:flex;align-items:center;gap:9px">
       <input type="checkbox" id="fFav" style="width:17px;height:17px;accent-color:var(--accent)"/>
       <label for="fFav" style="text-transform:none;letter-spacing:0;font-size:14px;color:var(--text);margin:0">Mark as Favorite ⭐</label>
     </div>
-    <div class="mactions">
-      <button class="btn-s" onclick="closeAddModal()">Cancel</button>
-      <button class="btn-p" onclick="saveRecipe()">Save Recipe</button>
+    <div class="ma">
+      <button class="bs" onclick="closeAddModal()">Cancel</button>
+      <button class="bp" onclick="saveRecipe()">Save Recipe</button>
     </div>
   </div>
 </div>
 
 <!-- CATEGORY MANAGER -->
-<div class="sheet-backdrop" id="catModal" onclick="if(event.target===this)closeCatModal()">
-  <div class="sheet">
+<div class="sbd" id="catModal" onclick="if(event.target===this)closeCatModal()">
+  <div class="sh">
     <h2>🏷️ Manage Categories</h2>
     <div id="catList"></div>
     <div style="font-size:12px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Add New Category</div>
-    <div class="add-cat-row">
-      <input type="text" id="newCatInput" placeholder="e.g. Street Food, Soups…" onkeydown="if(event.key==='Enter')addCategory()"/>
-      <button onclick="addCategory()">+ Add</button>
+    <div class="acr">
+      <input type="text" id="newCatInput" placeholder="e.g. Street Food, Soups…" onkeydown="if(event.key==='Enter')addCat()"/>
+      <button onclick="addCat()">+ Add</button>
     </div>
-    <div class="mactions"><button class="btn-p" onclick="closeCatModal()">✅ Done</button></div>
+    <div class="ma"><button class="bp" onclick="closeCatModal()">✅ Done</button></div>
   </div>
 </div>
 
 <!-- RENAME CATEGORY -->
-<div class="sheet-backdrop" id="renameCatModal" onclick="if(event.target===this)closeRenameCat()">
-  <div class="sheet">
+<div class="sbd" id="renameCatModal" onclick="if(event.target===this)closeRenameCat()">
+  <div class="sh">
     <h2>✏️ Rename Category</h2>
-    <div class="field"><label>New Name</label><input type="text" id="renameCatInput" placeholder="Category name"/></div>
-    <div class="mactions">
-      <button class="btn-s" onclick="closeRenameCat()">Cancel</button>
-      <button class="btn-p" onclick="confirmRenameCategory()">Rename</button>
+    <div class="fi"><label>New Name</label><input type="text" id="renameCatInput" placeholder="Category name"/></div>
+    <div class="ma">
+      <button class="bs" onclick="closeRenameCat()">Cancel</button>
+      <button class="bp" onclick="confirmRenameCat()">Rename</button>
     </div>
   </div>
 </div>
 
 <!-- NAME PROMPT -->
-<div class="sheet-backdrop" id="nameModal">
-  <div class="name-prompt">
+<div class="sbd" id="nameModal">
+  <div class="np">
     <h2>👋 Welcome to Kitchen Recipes!</h2>
-    <p>Enter your name so everyone knows who added each recipe. Saved on this device only.</p>
-    <div class="field"><input type="text" id="nameInput" placeholder="Your name e.g. Ankit" maxlength="30"/></div>
-    <div class="mactions"><button class="btn-p" onclick="saveName()">Let's Cook! 🍳</button></div>
+    <p>Enter your name so everyone knows who added each recipe.</p>
+    <div class="fi"><input type="text" id="nameInput" placeholder="Your name e.g. Ankit" maxlength="30"/></div>
+    <div class="ma"><button class="bp" onclick="saveName()">Let's Cook! 🍳</button></div>
   </div>
 </div>
 
-<!-- OWNER PIN MODAL -->
-<div class="sheet-backdrop" id="ownerPinModal" onclick="if(event.target===this)closeOwnerPin()">
-  <div class="sheet">
+<!-- OWNER PIN -->
+<div class="sbd" id="ownerPinModal" onclick="if(event.target===this)closeOwnerPin()">
+  <div class="sh">
     <h2>🔐 Owner Access</h2>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6">
-      Enter the owner PIN to unlock delete permissions on this device.
-      <br/>Default PIN: <strong>1234</strong> — change it after first login.
-    </p>
-    <div class="field"><label>PIN</label><input type="password" id="pinInput" placeholder="Enter PIN" maxlength="10" onkeydown="if(event.key==='Enter')checkOwnerPin()"/></div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6">Enter the owner PIN to unlock delete permissions. Default PIN: <strong>1234</strong></p>
+    <div class="fi"><label>PIN</label><input type="password" id="pinInput" placeholder="Enter PIN" maxlength="10" onkeydown="if(event.key==='Enter')checkPin()"/></div>
     <div id="pinError" style="color:var(--accent);font-size:12px;margin-bottom:8px;display:none">❌ Wrong PIN</div>
-    <div class="mactions">
-      <button class="btn-s" onclick="closeOwnerPin()">Cancel</button>
-      <button class="btn-p" onclick="checkOwnerPin()">Unlock</button>
+    <div class="ma">
+      <button class="bs" onclick="closeOwnerPin()">Cancel</button>
+      <button class="bp" onclick="checkPin()">Unlock</button>
     </div>
-    <div style="margin-top:12px;text-align:center" id="changePinWrap" style="display:none">
+    <div style="margin-top:12px;text-align:center">
       <button onclick="openChangePin()" style="background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;font-family:'Lato',sans-serif">Change PIN</button>
     </div>
   </div>
 </div>
 
-<!-- CHANGE PIN MODAL -->
-<div class="sheet-backdrop" id="changePinModal" onclick="if(event.target===this)closeChangePin()">
-  <div class="sheet">
+<!-- CHANGE PIN -->
+<div class="sbd" id="changePinModal" onclick="if(event.target===this)closeChangePin()">
+  <div class="sh">
     <h2>🔑 Change Owner PIN</h2>
-    <div class="field"><label>Current PIN</label><input type="password" id="oldPinInput" placeholder="Current PIN"/></div>
-    <div class="field"><label>New PIN</label><input type="password" id="newPinInput" placeholder="New PIN (min 4 digits)"/></div>
+    <div class="fi"><label>Current PIN</label><input type="password" id="oldPinInput" placeholder="Current PIN"/></div>
+    <div class="fi"><label>New PIN</label><input type="password" id="newPinInput" placeholder="New PIN (min 4 chars)"/></div>
     <div id="changePinError" style="color:var(--accent);font-size:12px;margin-bottom:8px;display:none"></div>
-    <div class="mactions">
-      <button class="btn-s" onclick="closeChangePin()">Cancel</button>
-      <button class="btn-p" onclick="confirmChangePin()">Save PIN</button>
+    <div class="ma">
+      <button class="bs" onclick="closeChangePin()">Cancel</button>
+      <button class="bp" onclick="confirmChangePin()">Save PIN</button>
     </div>
   </div>
 </div>
@@ -326,490 +269,364 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ══════════════════════════════════════════════════
-//  JSONBIN CONFIG
-// ══════════════════════════════════════════════════
-const BIN_ID     = '69c1104ec3097a1dd54f473f';
-const ACCESS_KEY = '$2a$10$ke.y7.nJA6o5bCuCt4sGCOBkG5MT0W8KEdkwvB7rEEP1ufC/TRi/C';
-const BIN_URL    = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
-const HEADERS    = { 'Content-Type':'application/json', 'X-Master-Key': ACCESS_KEY };
+// ── CONFIG ─────────────────────────────────────────
+const BIN_ID = '69c1104ec3097a1dd54f473f';
+const MKEY   = '$2a$10$ke.y7.nJA6o5bCuCt4sGCOBkG5MT0W8KEdkwvB7rEEP1ufC/TRi/C';
+const BURL   = 'https://api.jsonbin.io/v3/b/' + BIN_ID;
 
-// ══════════════════════════════════════════════════
-//  STATE
-// ══════════════════════════════════════════════════
-let recipes    = [];
-let categories = ['Breakfast','Lunch','Dinner','Dessert','Snacks','Vegetarian','Drinks'];
-let editingId  = null;
-let currentTab = 'all';
-let currentCat = 'All';
-let editMode   = false;
-let syncTimer  = null;
-let selectedCats = [];
-let renamingCat  = null;
-let isOwner    = localStorage.getItem('is_owner') === 'true';
-let ownerPin   = localStorage.getItem('owner_pin') || '1234';
-let userName   = localStorage.getItem('recipe_user_name') || '';
+// ── STATE ──────────────────────────────────────────
+let recipes = [], categories = ['Breakfast','Lunch','Dinner','Dessert','Snacks','Vegetarian','Drinks'];
+let editingId = null, currentTab = 'all', currentCat = 'All';
+let editMode = false, selectedCats = [], renamingCat = null;
+let isOwner  = localStorage.getItem('is_owner') === 'true';
+let ownerPin = localStorage.getItem('owner_pin') || '1234';
+let userName = localStorage.getItem('recipe_user_name') || '';
+let saveTimer = null;
 
-// ══════════════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════════════
-function hideLoading() {} // no-op, overlay removed
-
+// ── INIT ───────────────────────────────────────────
 window.addEventListener('load', () => {
-  // Load from cache instantly
-  const cached = localStorage.getItem('recipe_cache');
-  if (cached) {
-    try {
-      const d = JSON.parse(cached);
-      recipes    = d.recipes    || [];
-      categories = d.categories || categories;
-    } catch(e) {}
-  }
+  // Load cache immediately — no waiting
+  try {
+    const c = localStorage.getItem('recipe_cache');
+    if (c) { const d=JSON.parse(c); recipes=d.recipes||[]; categories=d.categories||categories; }
+  } catch(e) {}
 
   if (!userName) { showNamePrompt(); return; }
-
   render();
-  syncInBackground();
+  syncBg();
 });
 
-async function syncInBackground() {
-  setSyncStatus('orange', 'Syncing…');
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 10000);
-    const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-      headers: { 'X-Master-Key': ACCESS_KEY, 'X-Bin-Meta': 'false' },
-      signal: controller.signal
-    });
-    clearTimeout(timeout);
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    const data = await r.json();
-    recipes    = Array.isArray(data.recipes)    ? data.recipes    : recipes;
-    categories = Array.isArray(data.categories) ? data.categories : categories;
-    localStorage.setItem('recipe_cache', JSON.stringify({ recipes, categories }));
-    render();
-    setSyncStatus('green', 'Synced ✓');
-    setLastSync();
-  } catch(e) {
-    if (e.name === 'AbortError') {
-      setSyncStatus('red', 'Sync timeout — showing cached data');
-    } else {
-      setSyncStatus('red', 'Offline — showing cached data');
-    }
-    console.error('Sync error:', e.message);
-  }
-}
-
-function hideLoading() { document.getElementById('loadingOverlay').style.display = 'none'; }
-
+// ── NAME ───────────────────────────────────────────
 function showNamePrompt() {
   document.getElementById('nameModal').classList.add('open');
   setTimeout(() => document.getElementById('nameInput').focus(), 300);
 }
-
 function saveName() {
   const n = document.getElementById('nameInput').value.trim();
-  if (!n) { showToast('⚠️ Please enter your name'); return; }
+  if (!n) { toast('⚠️ Please enter your name'); return; }
   userName = n;
   localStorage.setItem('recipe_user_name', n);
   document.getElementById('nameModal').classList.remove('open');
-  render();
-  syncInBackground();
+  render(); syncBg();
+}
+
+// ── JSONBIN SYNC ───────────────────────────────────
+async function syncBg() {
+  setSS('orange', 'Syncing…');
+  try {
+    const ctrl = new AbortController();
+    const tid  = setTimeout(() => ctrl.abort(), 15000);
+    const r = await fetch(BURL + '/latest', {
+      headers: { 'X-Master-Key': MKEY, 'X-Access-Key': MKEY, 'X-Bin-Meta': 'false' },
+      signal: ctrl.signal
+    });
+    clearTimeout(tid);
+    if (!r.ok) {
+      const t = await r.text();
+      throw new Error('HTTP ' + r.status + ': ' + t.substring(0,100));
+    }
+    const d = await r.json();
+    if (Array.isArray(d.recipes))    recipes    = d.recipes;
+    if (Array.isArray(d.categories)) categories = d.categories;
+    localStorage.setItem('recipe_cache', JSON.stringify({recipes,categories}));
+    render(); setSS('green','Synced ✓'); setLT();
+  } catch(e) {
+    const msg = e.name==='AbortError' ? 'Timeout' : e.message;
+    setSS('red', 'Sync failed: ' + msg.substring(0,40));
+    console.error('Sync:', e.message);
+  }
 }
 
 async function saveData() {
-  setSyncStatus('orange', 'Saving…');
+  setSS('orange','Saving…');
   try {
-    const payload = {
-      recipes,
-      categories,
-      lastUpdated: new Date().toISOString(),
-      updatedBy:   userName
-    };
-    const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-      method:  'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Master-Key': ACCESS_KEY
-      },
-      body: JSON.stringify(payload)
+    const r = await fetch(BURL, {
+      method: 'PUT',
+      headers: { 'Content-Type':'application/json', 'X-Master-Key': MKEY },
+      body: JSON.stringify({recipes, categories, lastUpdated: new Date().toISOString(), updatedBy: userName})
     });
     if (!r.ok) throw new Error('HTTP ' + r.status);
-    localStorage.setItem('recipe_cache', JSON.stringify({ recipes, categories }));
-    setSyncStatus('green', 'Saved ✓');
-    setLastSync();
+    localStorage.setItem('recipe_cache', JSON.stringify({recipes,categories}));
+    setSS('green','Saved ✓'); setLT();
   } catch(e) {
-    console.error('Save error:', e);
-    setSyncStatus('red', 'Save failed — check connection');
-    showToast('❌ Could not save. Check your connection.');
+    setSS('red','Save failed'); toast('❌ Save failed: ' + e.message);
   }
 }
 
-// ══════════════════════════════════════════════════
-//  JSONBIN — LOAD & SAVE
-// ══════════════════════════════════════════════════
-async function loadData()  { await syncInBackground(); }
-async function syncNow()   { showToast('🔄 Syncing…'); await syncInBackground(); }
-  showToast('🔄 Testing connection…');
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  setSS('orange','Unsaved…');
+  saveTimer = setTimeout(saveData, 1200);
+}
+
+async function syncNow() { toast('🔄 Syncing…'); await syncBg(); }
+
+async function testConn() {
+  toast('🔄 Testing JSONBin…');
   try {
-    const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-      headers: { 'X-Master-Key': ACCESS_KEY, 'X-Bin-Meta': 'false' }
+    const r = await fetch(BURL + '/latest', {
+      headers: { 'X-Master-Key': MKEY, 'X-Access-Key': MKEY, 'X-Bin-Meta': 'false' }
     });
-    const text = await r.text();
+    const t = await r.text();
+    console.log('JSONBin status:', r.status, 'body:', t.substring(0,300));
     if (r.ok) {
-      showToast('✅ Connected! Status: ' + r.status);
-      await loadData();
+      toast('✅ JSONBin OK! Loading recipes…');
+      const d = JSON.parse(t);
+      if (Array.isArray(d.recipes)) recipes = d.recipes;
+      if (Array.isArray(d.categories)) categories = d.categories;
+      localStorage.setItem('recipe_cache', JSON.stringify({recipes,categories}));
+      render(); setSS('green','Synced ✓'); setLT();
     } else {
-      showToast('❌ Error ' + r.status + ': ' + text.substring(0, 60));
-      console.error('JSONBin error:', r.status, text);
+      toast('❌ Error ' + r.status + ': ' + t.substring(0,60));
     }
   } catch(e) {
-    showToast('❌ Network error: ' + e.message);
-    console.error('Network error:', e);
+    toast('❌ ' + e.message);
+    console.error('Test:', e);
   }
 }
-  clearTimeout(syncTimer);
-  setSyncStatus('orange', 'Saving…');
-  syncTimer = setTimeout(() => saveData(), 1000);
-}
 
-async function syncNow() { showToast('🔄 Syncing…'); await loadData(); }
+function setSS(c,m) { document.getElementById('syncDot').className='dot '+c; document.getElementById('syncMsg').textContent=m; }
+function setLT() { document.getElementById('syncTime').textContent=new Date().toLocaleTimeString(); }
 
-function setSyncStatus(c, m) {
-  document.getElementById('syncDot').className = 'dot ' + c;
-  document.getElementById('syncMsg').textContent = m;
-}
-function setLastSync() {
-  document.getElementById('syncTime').textContent = new Date().toLocaleTimeString();
-}
-
-// ══════════════════════════════════════════════════
-//  OWNER PIN
-// ══════════════════════════════════════════════════
+// ── OWNER PIN ──────────────────────────────────────
 function openOwnerPin() {
   if (isOwner) {
-    // Already owner — show options to lock or change PIN
-    if (confirm('You are the owner. Lock owner mode on this device?')) {
-      isOwner = false;
-      localStorage.removeItem('is_owner');
-      document.getElementById('ownerBadge').style.display = 'none';
-      document.getElementById('editHint').textContent = 'Tap 🗑 on any recipe card to delete it (owner only)';
-      render();
-      showToast('🔒 Owner mode locked');
+    if (confirm('You are the owner. Lock owner mode?')) {
+      isOwner=false; localStorage.removeItem('is_owner');
+      document.getElementById('ownerBadge').style.display='none';
+      render(); toast('🔒 Locked');
     }
     return;
   }
-  document.getElementById('pinInput').value = '';
-  document.getElementById('pinError').style.display = 'none';
+  document.getElementById('pinInput').value='';
+  document.getElementById('pinError').style.display='none';
   document.getElementById('ownerPinModal').classList.add('open');
-  setTimeout(() => document.getElementById('pinInput').focus(), 300);
+  setTimeout(()=>document.getElementById('pinInput').focus(),300);
 }
-
 function closeOwnerPin() { document.getElementById('ownerPinModal').classList.remove('open'); }
-
-function checkOwnerPin() {
-  const entered = document.getElementById('pinInput').value;
-  ownerPin = localStorage.getItem('owner_pin') || '1234';
-  if (entered === ownerPin) {
-    isOwner = true;
-    localStorage.setItem('is_owner', 'true');
+function checkPin() {
+  ownerPin = localStorage.getItem('owner_pin')||'1234';
+  if (document.getElementById('pinInput').value === ownerPin) {
+    isOwner=true; localStorage.setItem('is_owner','true');
     closeOwnerPin();
-    document.getElementById('ownerBadge').style.display = 'inline-block';
-    document.getElementById('editHint').textContent = '🔓 Owner mode — tap 🗑 on any card to delete';
-    render();
-    showToast('✅ Owner mode unlocked!');
+    document.getElementById('ownerBadge').style.display='inline-block';
+    document.getElementById('editHint').textContent='🔓 Owner mode — tap 🗑 on any card to delete';
+    render(); toast('✅ Owner mode unlocked!');
   } else {
-    document.getElementById('pinError').style.display = 'block';
-    document.getElementById('pinInput').value = '';
+    document.getElementById('pinError').style.display='block';
+    document.getElementById('pinInput').value='';
   }
 }
-
-function openChangePin() {
-  closeOwnerPin();
-  document.getElementById('oldPinInput').value = '';
-  document.getElementById('newPinInput').value = '';
-  document.getElementById('changePinError').style.display = 'none';
-  document.getElementById('changePinModal').classList.add('open');
-}
+function openChangePin() { closeOwnerPin(); document.getElementById('oldPinInput').value=''; document.getElementById('newPinInput').value=''; document.getElementById('changePinError').style.display='none'; document.getElementById('changePinModal').classList.add('open'); }
 function closeChangePin() { document.getElementById('changePinModal').classList.remove('open'); }
-
 function confirmChangePin() {
-  const old  = document.getElementById('oldPinInput').value;
-  const nw   = document.getElementById('newPinInput').value.trim();
-  const errEl = document.getElementById('changePinError');
-  ownerPin = localStorage.getItem('owner_pin') || '1234';
-  if (old !== ownerPin) { errEl.textContent = '❌ Current PIN is wrong'; errEl.style.display = 'block'; return; }
-  if (nw.length < 4)   { errEl.textContent = '❌ New PIN must be at least 4 characters'; errEl.style.display = 'block'; return; }
-  localStorage.setItem('owner_pin', nw);
-  closeChangePin();
-  showToast('✅ PIN changed successfully');
+  const old=document.getElementById('oldPinInput').value, nw=document.getElementById('newPinInput').value.trim();
+  ownerPin=localStorage.getItem('owner_pin')||'1234';
+  const e=document.getElementById('changePinError');
+  if (old!==ownerPin) { e.textContent='❌ Current PIN is wrong'; e.style.display='block'; return; }
+  if (nw.length<4)    { e.textContent='❌ New PIN must be at least 4 characters'; e.style.display='block'; return; }
+  localStorage.setItem('owner_pin',nw); closeChangePin(); toast('✅ PIN changed!');
 }
 
-// ══════════════════════════════════════════════════
-//  YOUTUBE
-// ══════════════════════════════════════════════════
-function extractVid(url) {
+// ── YOUTUBE ────────────────────────────────────────
+function vid(url) {
   for (const p of [/[?&]v=([^&#]+)/,/youtu\.be\/([^?&#]+)/,/\/embed\/([^?&#]+)/,/\/shorts\/([^?&#]+)/]) {
-    const m = url.match(p); if (m) return m[1];
+    const m=url.match(p); if(m) return m[1];
   } return null;
 }
-function thumbUrl(url) { const id = extractVid(url); return id ? `https://img.youtube.com/vi/${id}/mqdefault.jpg` : null; }
+function thumb(url) { const id=vid(url); return id?`https://img.youtube.com/vi/${id}/mqdefault.jpg`:null; }
 
-// ══════════════════════════════════════════════════
-//  CATEGORIES
-// ══════════════════════════════════════════════════
-function recipeCats(r) {
-  if (Array.isArray(r.categories) && r.categories.length) return r.categories;
-  if (r.category) return [r.category];
-  return [];
-}
+// ── CATEGORIES ─────────────────────────────────────
+function rCats(r) { return Array.isArray(r.categories)&&r.categories.length?r.categories:r.category?[r.category]:[]; }
 
 function renderChips() {
-  document.getElementById('chipsBar').innerHTML = ['All',...categories].map(c =>
-    `<button class="chip ${c===currentCat?'active':''}" onclick="setCategory('${c}')">${c}</button>`
+  document.getElementById('chipsBar').innerHTML=['All',...categories].map(c=>
+    `<button class="chip ${c===currentCat?'active':''}" onclick="setCat('${c}')">${c}</button>`
   ).join('');
 }
-function setCategory(c) { currentCat = c; render(); }
+function setCat(c) { currentCat=c; render(); }
 
-// Multi-select category picker in add/edit form
-function renderCatPicker(preselected = []) {
-  selectedCats = Array.isArray(preselected) ? [...preselected] : (preselected ? [preselected] : []);
-  document.getElementById('catPicker').innerHTML = categories.map(c =>
-    `<div class="cat-pick-chip ${selectedCats.includes(c)?'selected':''}" onclick="toggleCatPick('${c}')">${c}</div>`
+function renderCatPicker(pre=[]) {
+  selectedCats=Array.isArray(pre)?[...pre]:(pre?[pre]:[]);
+  document.getElementById('catPicker').innerHTML=categories.map(c=>
+    `<div class="cpc-chip ${selectedCats.includes(c)?'sel':''}" onclick="toggleCatPick('${c}')">${c}</div>`
   ).join('');
-  updateCatPickHint();
+  updateCPH();
 }
-function toggleCatPick(cat) {
-  const i = selectedCats.indexOf(cat);
-  if (i === -1) selectedCats.push(cat); else selectedCats.splice(i, 1);
-  document.querySelectorAll('.cat-pick-chip').forEach(el =>
-    el.classList.toggle('selected', selectedCats.includes(el.textContent))
-  );
-  updateCatPickHint();
+function toggleCatPick(c) {
+  const i=selectedCats.indexOf(c);
+  if(i===-1) selectedCats.push(c); else selectedCats.splice(i,1);
+  document.querySelectorAll('.cpc-chip').forEach(el=>el.classList.toggle('sel',selectedCats.includes(el.textContent)));
+  updateCPH();
 }
-function updateCatPickHint() {
-  const h = document.getElementById('catPickHint');
-  if (h) h.textContent = selectedCats.length === 0 ? 'None selected' : 'Selected: ' + selectedCats.join(', ');
+function updateCPH() {
+  const h=document.getElementById('catPickHint');
+  if(h) h.textContent=selectedCats.length?'Selected: '+selectedCats.join(', '):'None selected';
 }
 
-// Category Manager
-function openCategoryManager() { renderCatManager(); document.getElementById('catModal').classList.add('open'); setTimeout(()=>document.getElementById('newCatInput').focus(),300); }
+function openCatMgr() { renderCatList(); document.getElementById('catModal').classList.add('open'); setTimeout(()=>document.getElementById('newCatInput').focus(),300); }
 function closeCatModal() { document.getElementById('catModal').classList.remove('open'); }
-
-function renderCatManager() {
-  const list = document.getElementById('catList');
-  if (!categories.length) { list.innerHTML = `<div style="text-align:center;color:var(--muted);padding:16px 0;font-size:13px">No categories yet.</div>`; return; }
-  list.innerHTML = categories.map((c,i) => `
-    <div class="cat-row">
-      <div class="cat-row-name">🏷️ ${c}</div>
-      <div class="cat-row-actions">
-        <button class="cat-action-btn" onclick="startRenameCategory(${i})">✏️</button>
-        <button class="cat-action-btn red" onclick="deleteCategory(${i})">🗑</button>
-      </div>
-    </div>`).join('');
+function renderCatList() {
+  document.getElementById('catList').innerHTML=categories.length
+    ?categories.map((c,i)=>`<div class="cr"><div class="crn">🏷️ ${c}</div><div class="cra"><button class="cab" onclick="startRenameCat(${i})">✏️</button><button class="cab red" onclick="deleteCat(${i})">🗑</button></div></div>`).join('')
+    :`<div style="text-align:center;color:var(--muted);padding:16px 0;font-size:13px">No categories yet.</div>`;
 }
-
-function addCategory() {
-  const inp  = document.getElementById('newCatInput');
-  const name = inp.value.trim();
-  if (!name) { showToast('⚠️ Enter a category name'); return; }
-  if (categories.includes(name)) { showToast('⚠️ Already exists'); return; }
-  categories.push(name);
-  inp.value = '';
-  renderCatManager(); renderChips(); scheduleSave();
-  showToast('✅ Category added: ' + name);
+function addCat() {
+  const inp=document.getElementById('newCatInput'), name=inp.value.trim();
+  if(!name){toast('⚠️ Enter a name');return;}
+  if(categories.includes(name)){toast('⚠️ Already exists');return;}
+  categories.push(name); inp.value='';
+  renderCatList(); renderChips(); scheduleSave(); toast('✅ Added: '+name);
 }
-
-function startRenameCategory(idx) {
-  renamingCat = idx;
-  document.getElementById('renameCatInput').value = categories[idx];
-  document.getElementById('renameCatModal').classList.add('open');
-  setTimeout(() => document.getElementById('renameCatInput').focus(), 300);
-}
-function closeRenameCat() { document.getElementById('renameCatModal').classList.remove('open'); renamingCat = null; }
-
-function confirmRenameCategory() {
-  const newName = document.getElementById('renameCatInput').value.trim();
-  if (!newName) { showToast('⚠️ Enter a name'); return; }
-  if (categories.includes(newName) && newName !== categories[renamingCat]) { showToast('⚠️ Already exists'); return; }
-  const old = categories[renamingCat];
-  categories[renamingCat] = newName;
-  recipes.forEach(r => {
-    if (Array.isArray(r.categories)) { const i = r.categories.indexOf(old); if (i>-1) r.categories[i]=newName; }
-    if (r.category === old) r.category = newName;
+function startRenameCat(i) { renamingCat=i; document.getElementById('renameCatInput').value=categories[i]; document.getElementById('renameCatModal').classList.add('open'); setTimeout(()=>document.getElementById('renameCatInput').focus(),300); }
+function closeRenameCat() { document.getElementById('renameCatModal').classList.remove('open'); renamingCat=null; }
+function confirmRenameCat() {
+  const n=document.getElementById('renameCatInput').value.trim();
+  if(!n){toast('⚠️ Enter a name');return;}
+  if(categories.includes(n)&&n!==categories[renamingCat]){toast('⚠️ Already exists');return;}
+  const old=categories[renamingCat]; categories[renamingCat]=n;
+  recipes.forEach(r=>{
+    if(Array.isArray(r.categories)){const i=r.categories.indexOf(old);if(i>-1)r.categories[i]=n;}
+    if(r.category===old)r.category=n;
   });
-  closeRenameCat(); closeCatModal(); openCategoryManager();
-  renderChips(); render(); scheduleSave();
-  showToast(`✅ Renamed "${old}" → "${newName}"`);
+  closeRenameCat(); closeCatModal(); openCatMgr();
+  renderChips(); render(); scheduleSave(); toast(`✅ Renamed "${old}" → "${n}"`);
 }
-
-function deleteCategory(idx) {
-  const name  = categories[idx];
-  const count = recipes.filter(r => recipeCats(r).includes(name)).length;
-  if (!confirm(`Delete "${name}"?${count>0?' '+count+' recipe(s) will lose this category.':''}`)) return;
-  categories.splice(idx, 1);
-  recipes.forEach(r => {
-    if (Array.isArray(r.categories)) r.categories = r.categories.filter(c=>c!==name);
-    if (r.category === name) r.category = r.categories?.[0] || '';
+function deleteCat(i) {
+  const name=categories[i], count=recipes.filter(r=>rCats(r).includes(name)).length;
+  if(!confirm(`Delete "${name}"?${count?` ${count} recipe(s) will lose this category.`:''}`))return;
+  categories.splice(i,1);
+  recipes.forEach(r=>{
+    if(Array.isArray(r.categories))r.categories=r.categories.filter(c=>c!==name);
+    if(r.category===name)r.category=r.categories?.[0]||'';
   });
-  if (currentCat === name) currentCat = 'All';
-  renderCatManager(); renderChips(); render(); scheduleSave();
-  showToast(`🗑 "${name}" deleted`);
+  if(currentCat===name)currentCat='All';
+  renderCatList(); renderChips(); render(); scheduleSave(); toast(`🗑 "${name}" deleted`);
 }
 
-// ══════════════════════════════════════════════════
-//  FILTER & RENDER
-// ══════════════════════════════════════════════════
+// ── FILTER & RENDER ────────────────────────────────
 function filtered() {
-  const q = document.getElementById('searchInput').value.toLowerCase().trim();
-  return recipes.filter(r => {
-    const cats = recipeCats(r);
-    return (currentTab==='all' || r.favorite)
-      && (currentCat==='All' || cats.includes(currentCat))
-      && (!q || r.name.toLowerCase().includes(q) || cats.join(' ').toLowerCase().includes(q) || (r.notes||'').toLowerCase().includes(q) || (r.addedBy||'').toLowerCase().includes(q));
+  const q=document.getElementById('searchInput').value.toLowerCase().trim();
+  return recipes.filter(r=>{
+    const cats=rCats(r);
+    return (currentTab==='all'||r.favorite)
+      &&(currentCat==='All'||cats.includes(currentCat))
+      &&(!q||r.name.toLowerCase().includes(q)||cats.join(' ').toLowerCase().includes(q)||(r.notes||'').toLowerCase().includes(q)||(r.addedBy||'').toLowerCase().includes(q));
   });
 }
 
 function render() {
   renderChips();
-  const list = filtered();
-  const grid = document.getElementById('recipeGrid');
-  document.getElementById('countBadge').textContent = list.length;
-  document.getElementById('noResults').style.display = list.length===0 && recipes.length>0 ? 'block':'none';
-
-  if (list.length===0 && recipes.length===0) {
-    grid.innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="icon">👨‍🍳</div><h3>No recipes yet!</h3><p>Tap <strong>+ Add</strong> to add the first recipe!</p></div>`;
+  const list=filtered(), grid=document.getElementById('recipeGrid');
+  document.getElementById('countBadge').textContent=list.length;
+  document.getElementById('noResults').style.display=list.length===0&&recipes.length>0?'block':'none';
+  if(list.length===0&&recipes.length===0){
+    grid.innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="icon">👨‍🍳</div><h3>No recipes yet!</h3><p>Tap <strong>+ Add</strong> to add the first recipe.</p></div>`;
     return;
   }
-  grid.innerHTML = list.map(r => {
-    const t = thumbUrl(r.url);
-    const thumbHtml = t
-      ? `<img class="card-thumb" src="${t}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy"/><div class="card-ph" style="display:none">🎬</div>`
-      : `<div class="card-ph">🎬</div>`;
-    const cats = recipeCats(r);
-    return `<div class="recipe-card ${editMode?'edit-mode':''}" onclick="playRecipe('${r.id}')">
-      ${thumbHtml}
-      <div class="play-ov">▶</div>
-      ${isOwner ? `<button class="del-btn" onclick="deleteRecipe(event,'${r.id}')">🗑</button>` : ''}
-      <div class="card-body">
-        <div class="card-title">${r.name}</div>
-        <div class="card-meta">
+  grid.innerHTML=list.map(r=>{
+    const t=thumb(r.url);
+    const th=t?`<img class="ct" src="${t}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy"/><div class="cp" style="display:none">🎬</div>`:`<div class="cp">🎬</div>`;
+    const cats=rCats(r);
+    return `<div class="rc ${editMode?'em':''}" onclick="playRecipe('${r.id}')">
+      ${th}
+      <div class="pov">▶</div>
+      ${isOwner?`<button class="db" onclick="delRecipe(event,'${r.id}')">🗑</button>`:''}
+      <div class="cb">
+        <div class="ctitle">${r.name}</div>
+        <div class="cm">
           ${cats.map(c=>`<span class="tag">${c}</span>`).join('')}
           ${r.favorite?`<span class="tag" style="background:#fce4ec;color:#c0392b">⭐</span>`:''}
         </div>
-        ${r.notes?`<div class="card-desc">${r.notes}</div>`:''}
-        ${r.addedBy?`<div class="added-by">by <span class="adder-badge">${r.addedBy}</span></div>`:''}
+        ${r.notes?`<div class="cd">${r.notes}</div>`:''}
+        ${r.addedBy?`<div class="aby">by <span class="ab">${r.addedBy}</span></div>`:''}
       </div>
     </div>`;
   }).join('');
 }
 
-// ══════════════════════════════════════════════════
-//  PLAY
-// ══════════════════════════════════════════════════
+// ── PLAY ───────────────────────────────────────────
 function playRecipe(id) {
-  if (editMode) return;
-  const r = recipes.find(x=>x.id===id); if (!r) return;
-  const vid = extractVid(r.url); if (!vid) { showToast('❌ Invalid URL'); return; }
-  document.getElementById('videoTitle').textContent = r.name;
-  document.getElementById('psThumb').style.backgroundImage = `url(https://img.youtube.com/vi/${vid}/mqdefault.jpg)`;
+  if(editMode)return;
+  const r=recipes.find(x=>x.id===id); if(!r)return;
+  const v=vid(r.url); if(!v){toast('❌ Invalid URL');return;}
+  document.getElementById('videoTitle').textContent=r.name;
+  document.getElementById('psThumb').style.backgroundImage=`url(https://img.youtube.com/vi/${v}/mqdefault.jpg)`;
   document.getElementById('videoModal').classList.add('open');
-  window._vid = vid; window._vidUrl = `https://www.youtube.com/watch?v=${vid}`;
+  window._v=v; window._vu=`https://www.youtube.com/watch?v=${v}`;
 }
-function openYTApp()     { window.location.href=`vnd.youtube:${window._vid}`; setTimeout(()=>window.open(window._vidUrl,'_blank'),1200); }
-function openYTBrowser() { window.open(window._vidUrl,'_blank'); }
+function openYTApp()     { window.location.href=`vnd.youtube:${window._v}`; setTimeout(()=>window.open(window._vu,'_blank'),1200); }
+function openYTBrowser() { window.open(window._vu,'_blank'); }
 function closeVideo()    { document.getElementById('videoModal').classList.remove('open'); }
 
-// ══════════════════════════════════════════════════
-//  ADD / EDIT / DELETE
-// ══════════════════════════════════════════════════
+// ── ADD / EDIT / DELETE ────────────────────────────
 function openAddModal(id=null) {
-  editingId = id;
-  const r = id ? recipes.find(x=>x.id===id) : null;
-  document.getElementById('modalHeading').textContent = r ? 'Edit Recipe' : 'Add New Recipe';
-  document.getElementById('fName').value  = r ? r.name    : '';
-  document.getElementById('fUrl').value   = r ? r.url     : '';
-  document.getElementById('fNotes').value = r ? r.notes   : '';
-  document.getElementById('fFav').checked = r ? r.favorite: false;
-  const preCats = r ? (Array.isArray(r.categories) ? r.categories : (r.category ? [r.category] : [])) : [];
-  renderCatPicker(preCats);
+  editingId=id;
+  const r=id?recipes.find(x=>x.id===id):null;
+  document.getElementById('modalHeading').textContent=r?'Edit Recipe':'Add New Recipe';
+  document.getElementById('fName').value=r?r.name:'';
+  document.getElementById('fUrl').value=r?r.url:'';
+  document.getElementById('fNotes').value=r?r.notes:'';
+  document.getElementById('fFav').checked=r?r.favorite:false;
+  renderCatPicker(r?(Array.isArray(r.categories)?r.categories:r.category?[r.category]:[]):[]);
   document.getElementById('addModal').classList.add('open');
-  setTimeout(() => document.getElementById('fName').focus(), 300);
+  setTimeout(()=>document.getElementById('fName').focus(),300);
 }
 function closeAddModal() { document.getElementById('addModal').classList.remove('open'); editingId=null; }
-
 function saveRecipe() {
-  const name = document.getElementById('fName').value.trim();
-  const url  = document.getElementById('fUrl').value.trim();
-  if (!name)                    { showToast('⚠️ Please enter a recipe name');        return; }
-  if (!url || !extractVid(url)) { showToast('⚠️ Please enter a valid YouTube URL'); return; }
-  const data = {
-    name, url,
-    categories: selectedCats,
-    category:   selectedCats[0] || '',
-    notes:    document.getElementById('fNotes').value.trim(),
-    favorite: document.getElementById('fFav').checked,
-    addedBy:  userName,
-    addedAt:  new Date().toISOString(),
-  };
-  if (editingId) { Object.assign(recipes.find(x=>x.id===editingId), data); }
-  else           { recipes.push({ id: 'r' + Date.now(), ...data }); }
-  closeAddModal(); render();
-  showToast(editingId ? '✅ Recipe updated!' : '✅ Recipe added!');
-  scheduleSave();
+  const name=document.getElementById('fName').value.trim(), url=document.getElementById('fUrl').value.trim();
+  if(!name){toast('⚠️ Please enter a recipe name');return;}
+  if(!url||!vid(url)){toast('⚠️ Please enter a valid YouTube URL');return;}
+  const data={name,url,categories:selectedCats,category:selectedCats[0]||'',notes:document.getElementById('fNotes').value.trim(),favorite:document.getElementById('fFav').checked,addedBy:userName,addedAt:new Date().toISOString()};
+  if(editingId) Object.assign(recipes.find(x=>x.id===editingId),data);
+  else recipes.push({id:'r'+Date.now(),...data});
+  closeAddModal(); render(); toast(editingId?'✅ Updated!':'✅ Recipe added!'); scheduleSave();
 }
-
-function deleteRecipe(e, id) {
+function delRecipe(e,id) {
   e.stopPropagation();
-  if (!isOwner) { showToast('🔐 Owner PIN required to delete'); return; }
-  if (!confirm('Delete this recipe?')) return;
-  recipes = recipes.filter(r=>r.id!==id);
-  render(); showToast('🗑 Recipe deleted'); scheduleSave();
+  if(!isOwner){toast('🔐 Owner PIN required');return;}
+  if(!confirm('Delete this recipe?'))return;
+  recipes=recipes.filter(r=>r.id!==id);
+  render(); toast('🗑 Deleted'); scheduleSave();
 }
 
-// ══════════════════════════════════════════════════
-//  EDIT MODE / SEARCH / TABS
-// ══════════════════════════════════════════════════
+// ── EDIT MODE / SEARCH / TABS ──────────────────────
 function toggleEditMode() {
-  editMode = !editMode;
-  document.getElementById('editBtn').textContent = editMode ? '✅ Done' : '✏️ Edit';
-  document.getElementById('editBtn').className   = editMode ? 'hbtn active' : 'hbtn';
-  document.getElementById('editPanel').style.display = editMode ? 'block' : 'none';
-  document.getElementById('ownerBadge').style.display = (editMode && isOwner) ? 'inline-block' : 'none';
+  editMode=!editMode;
+  document.getElementById('editBtn').textContent=editMode?'✅ Done':'✏️ Edit';
+  document.getElementById('editBtn').className=editMode?'hbtn active':'hbtn';
+  document.getElementById('editPanel').style.display=editMode?'block':'none';
+  document.getElementById('ownerBadge').style.display=(editMode&&isOwner)?'inline-block':'none';
   render();
 }
 function onSearch(v) { document.getElementById('clearBtn').style.display=v?'block':'none'; render(); }
 function clearSearch() { document.getElementById('searchInput').value=''; document.getElementById('clearBtn').style.display='none'; render(); }
 function switchTab(tab) {
-  currentTab = tab;
-  document.getElementById('tabAll').classList.toggle('active', tab==='all');
-  document.getElementById('tabFav').classList.toggle('active', tab==='favorites');
-  document.querySelector('.section-title').innerHTML = tab==='all'
-    ? `<span>📋</span> All Recipes <span class="badge" id="countBadge">0</span>`
-    : `<span>⭐</span> Favorites <span class="badge" id="countBadge">0</span>`;
+  currentTab=tab;
+  document.getElementById('tabAll').classList.toggle('active',tab==='all');
+  document.getElementById('tabFav').classList.toggle('active',tab==='favorites');
+  document.querySelector('.st').innerHTML=tab==='all'
+    ?`<span>📋</span> All Recipes <span class="badge" id="countBadge">0</span>`
+    :`<span>⭐</span> Favorites <span class="badge" id="countBadge">0</span>`;
   render();
 }
 
-// ══════════════════════════════════════════════════
-//  TOAST
-// ══════════════════════════════════════════════════
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2800);
+// ── TOAST ──────────────────────────────────────────
+function toast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
 }
 
-// ══════════════════════════════════════════════════
-//  KEYBOARD + AUTO REFRESH
-// ══════════════════════════════════════════════════
-document.addEventListener('keydown', e => {
-  if (e.key==='Escape') { closeVideo(); closeAddModal(); closeCatModal(); closeRenameCat(); closeOwnerPin(); closeChangePin(); }
+// ── KEYBOARD ───────────────────────────────────────
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeVideo();closeAddModal();closeCatModal();closeRenameCat();closeOwnerPin();closeChangePin();}
 });
 
-// Auto-refresh every 60s to pick up others' additions
-setInterval(() => { if (!editMode) loadData(); }, 60000);
+// Auto-refresh every 60s
+setInterval(()=>{ if(!editMode) syncBg(); },60000);
 
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
 </html>
