@@ -102,6 +102,19 @@
       "notes": "",
       "favorite": true,
       "addedBy": "Ankit"
+    },
+    {
+      "id": "r1774257750197",
+      "name": "Rodent burrito",
+      "url": "https://youtu.be/WwGn7085gZo?si=BcztRauJanTYZHzL",
+      "categories": [
+        "Snacks",
+        "Dinner"
+      ],
+      "category": "Snacks",
+      "notes": "Nice",
+      "favorite": false,
+      "addedBy": "V"
     }
   ],
   "categories": [
@@ -113,6 +126,6 @@
     "Vegetarian",
     "Drinks"
   ],
-  "lastUpdated": "2026-03-23T09:18:58.629Z",
-  "updatedBy": "Ankit"
+  "lastUpdated": "2026-03-23T09:22:31.705Z",
+  "updatedBy": "V"
 }
