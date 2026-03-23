@@ -94,16 +94,16 @@
       "addedBy": "Ankit"
     },
     {
-      "id": "r1774257417886",
-      "name": "v test 2",
-      "url": "https://youtu.be/epOZ-WPO3h8?si=orrwyE3kkqNlijcJ",
+      "id": "r1774257456578",
+      "name": "ankit test4",
+      "url": "https://youtu.be/XmO_IvaDKjU?si=X-9V1qKfpAsl5GzN",
       "categories": [
-        "Snacks"
+        "Lunch"
       ],
-      "category": "Snacks",
+      "category": "Lunch",
       "notes": "",
-      "favorite": false,
-      "addedBy": "V"
+      "favorite": true,
+      "addedBy": "Ankit"
     }
   ],
   "categories": [
@@ -115,6 +115,6 @@
     "Vegetarian",
     "Drinks"
   ],
-  "lastUpdated": "2026-03-23T09:16:59.396Z",
-  "updatedBy": "V"
+  "lastUpdated": "2026-03-23T09:17:38.089Z",
+  "updatedBy": "Ankit"
 }
