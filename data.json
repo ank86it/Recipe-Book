@@ -44,6 +44,20 @@
       "notes": "Rest batter for 5 mins",
       "favorite": false,
       "addedBy": "Ankit"
+    },
+    {
+      "id": "r1774256211388",
+      "name": "ankit test",
+      "url": "https://youtu.be/RBxCAQ2UKfE?si=WaxGH8IY6nW56TJ8",
+      "categories": [
+        "Breakfast",
+        "Lunch",
+        "Dinner"
+      ],
+      "category": "Breakfast",
+      "notes": "",
+      "favorite": true,
+      "addedBy": "Ankit"
     }
   ],
   "categories": [
@@ -55,6 +69,6 @@
     "Vegetarian",
     "Drinks"
   ],
-  "lastUpdated": "2026-03-23T00:00:00.000Z",
+  "lastUpdated": "2026-03-23T08:59:01.181Z",
   "updatedBy": "Ankit"
 }
