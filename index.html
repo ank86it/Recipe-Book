@@ -182,7 +182,10 @@
 <!-- SYNC BAR -->
 <div id="syncBar">
   <span><span class="dot grey" id="syncDot"></span><span id="syncMsg">Loading…</span></span>
-  <span id="syncTime"></span>
+  <span style="display:flex;gap:8px;align-items:center">
+    <span id="syncTime"></span>
+    <button onclick="testConnection()" style="background:none;border:none;color:var(--muted);font-size:11px;cursor:pointer;text-decoration:underline">test</button>
+  </span>
 </div>
 
 <!-- SEARCH -->
@@ -386,23 +389,23 @@ function saveName() {
 async function loadData() {
   setSyncStatus('orange', 'Loading…');
   try {
-    const r = await fetch(BIN_URL + '/latest', {
+    const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
       method: 'GET',
       headers: {
         'X-Master-Key': ACCESS_KEY,
-        'X-Bin-Meta': 'false'
+        'X-Bin-Meta':   'false'
       }
     });
-    if (!r.ok) throw new Error('Fetch failed: ' + r.status);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
     const data = await r.json();
+    // X-Bin-Meta:false returns data directly (no .record wrapper)
     recipes    = Array.isArray(data.recipes)    ? data.recipes    : [];
     categories = Array.isArray(data.categories) ? data.categories : categories;
-    // Cache locally
     localStorage.setItem('recipe_cache', JSON.stringify({ recipes, categories }));
     setSyncStatus('green', 'Synced ✓');
     setLastSync();
   } catch(e) {
-    // Fallback to cache
+    console.error('Load error:', e);
     const cached = localStorage.getItem('recipe_cache');
     if (cached) {
       const d = JSON.parse(cached);
@@ -420,22 +423,50 @@ async function loadData() {
 async function saveData() {
   setSyncStatus('orange', 'Saving…');
   try {
-    const r = await fetch(BIN_URL, {
+    const payload = {
+      recipes,
+      categories,
+      lastUpdated: new Date().toISOString(),
+      updatedBy:   userName
+    };
+    const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
       method:  'PUT',
-      headers: HEADERS,
-      body:    JSON.stringify({ recipes, categories, lastUpdated: new Date().toISOString(), updatedBy: userName })
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': ACCESS_KEY
+      },
+      body: JSON.stringify(payload)
     });
-    if (!r.ok) throw new Error('Save failed: ' + r.status);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
     localStorage.setItem('recipe_cache', JSON.stringify({ recipes, categories }));
     setSyncStatus('green', 'Saved ✓');
     setLastSync();
   } catch(e) {
+    console.error('Save error:', e);
     setSyncStatus('red', 'Save failed — check connection');
     showToast('❌ Could not save. Check your connection.');
   }
 }
 
-function scheduleSave() {
+async function testConnection() {
+  showToast('🔄 Testing connection…');
+  try {
+    const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+      headers: { 'X-Master-Key': ACCESS_KEY, 'X-Bin-Meta': 'false' }
+    });
+    const text = await r.text();
+    if (r.ok) {
+      showToast('✅ Connected! Status: ' + r.status);
+      await loadData();
+    } else {
+      showToast('❌ Error ' + r.status + ': ' + text.substring(0, 60));
+      console.error('JSONBin error:', r.status, text);
+    }
+  } catch(e) {
+    showToast('❌ Network error: ' + e.message);
+    console.error('Network error:', e);
+  }
+}
   clearTimeout(syncTimer);
   setSyncStatus('orange', 'Saving…');
   syncTimer = setTimeout(() => saveData(), 1000);
