@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#2c1a0e" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Kitchen Recipes" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <title>Kitchen Recipes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    :root {
+      --bg:      #fdf6ec; --surface: #fff8f0; --card: #fffcf7;
+      --border:  #e8d5b7; --accent:  #c0392b; --accent2: #e67e22;
+      --text:    #2c1a0e; --muted:   #8b6f47; --tag-bg:  #fdebd0;
+      --shadow:  0 4px 24px rgba(44,26,14,0.10); --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Lato', sans-serif; background: var(--bg); color: var(--text); min-height: 100dvh; overflow-x: hidden; }
+
+    header { background: var(--text); color: #fdf6ec; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 16px rgba(44,26,14,0.25); }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-icon { font-size: 26px; }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 20px; line-height: 1; }
+    .logo-sub { font-size: 10px; color: #c8a97a; letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
+    .header-right { display: flex; gap: 8px; align-items: center; }
+    .header-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fdf6ec; border-radius: 10px; padding: 7px 12px; font-size: 12px; font-family: 'Lato', sans-serif; cursor: pointer; transition: background 0.2s; }
+    .header-btn:hover { background: rgba(255,255,255,0.18); }
+    .avatar { width: 30px; height: 30px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); cursor: pointer; object-fit: cover; }
+
+    #syncBar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 7px 20px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: var(--muted); }
+    .sync-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; vertical-align: middle; }
+    .sync-dot.green  { background: #27ae60; }
+    .sync-dot.orange { background: var(--accent2); animation: pulse 1s infinite; }
+    .sync-dot.red    { background: var(--accent); }
+    .sync-dot.grey   { background: #bbb; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+    /* LOGIN */
+    #loginScreen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 75vh; padding: 40px 24px; text-align: center; }
+    .login-icon { font-size: 68px; margin-bottom: 18px; }
+    .login-title { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 10px; }
+    .login-sub { font-size: 15px; color: var(--muted); line-height: 1.7; max-width: 340px; margin-bottom: 28px; }
+    .login-features { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 18px 22px; margin-bottom: 28px; text-align: left; max-width: 340px; width: 100%; }
+    .login-features li { font-size: 14px; padding: 4px 0; list-style: none; }
+    .login-features li::before { content: '✅  '; }
+    .btn-google { display: flex; align-items: center; gap: 12px; justify-content: center; padding: 15px 28px; background: white; border: 2px solid var(--border); border-radius: 14px; font-size: 16px; font-weight: 700; font-family: 'Lato', sans-serif; color: var(--text); cursor: pointer; box-shadow: var(--shadow); transition: box-shadow 0.2s, transform 0.15s; max-width: 300px; width: 100%; }
+    .btn-google:hover { box-shadow: 0 8px 32px rgba(44,26,14,0.15); transform: translateY(-2px); }
+    .btn-google img { width: 22px; height: 22px; }
+
+    #appScreen { display: none; }
+
+    .search-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; gap: 10px; align-items: center; }
+    .search-wrap { flex: 1; position: relative; }
+    .search-wrap input { width: 100%; padding: 11px 16px 11px 42px; border: 1.5px solid var(--border); border-radius: 12px; background: var(--card); font-size: 15px; font-family: 'Lato', sans-serif; color: var(--text); outline: none; transition: border-color 0.2s; }
+    .search-wrap input:focus { border-color: var(--accent2); }
+    .search-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); font-size: 17px; color: var(--muted); pointer-events: none; }
+    .clear-btn { position: absolute; right: 11px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 17px; color: var(--muted); cursor: pointer; display: none; }
+
+    .category-chips { display: flex; gap: 8px; overflow-x: auto; padding: 10px 16px; background: var(--surface); border-bottom: 1px solid var(--border); scrollbar-width: none; }
+    .category-chips::-webkit-scrollbar { display: none; }
+    .chip { white-space: nowrap; padding: 5px 14px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--card); color: var(--muted); font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.18s; flex-shrink: 0; }
+    .chip.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+    .tabs { display: flex; background: var(--surface); padding: 0 16px; gap: 4px; border-bottom: 2px solid var(--border); }
+    .tab { padding: 9px 16px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); border: none; background: none; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.2s; }
+    .tab.active { color: var(--accent); border-color: var(--accent); }
+
+    .grid-section { padding: 16px; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--text); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .count-badge { background: var(--tag-bg); color: var(--muted); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; font-family: 'Lato', sans-serif; }
+    .recipe-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 14px; }
+
+    .recipe-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: transform 0.18s, box-shadow 0.18s; box-shadow: var(--shadow); position: relative; }
+    .recipe-card:active { transform: scale(0.97); }
+    .recipe-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(44,26,14,0.15); }
+    .card-thumb { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+    .card-thumb-placeholder { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg,#fdebd0,#e8d5b7); display: flex; align-items: center; justify-content: center; font-size: 36px; }
+    .card-body { padding: 12px; }
+    .card-title { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; line-height: 1.3; color: var(--text); margin-bottom: 5px; }
+    .card-meta { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 6px; }
+    .tag { background: var(--tag-bg); color: var(--muted); font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px; text-transform: uppercase; }
+    .card-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+    .play-overlay { position: absolute; top: 7px; right: 7px; background: rgba(192,57,43,0.9); color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+    .delete-btn { position: absolute; top: 7px; left: 7px; background: rgba(44,26,14,0.75); color: white; border: none; border-radius: 50%; width: 28px; height: 28px; display: none; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; }
+    .edit-mode .delete-btn { display: flex; }
+
+    /* PLAY SHEET */
+    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(20,10,4,0.75); z-index: 500; align-items: flex-end; justify-content: center; }
+    .modal-backdrop.open { display: flex; }
+    .play-sheet { background: var(--card); border-radius: 24px 24px 0 0; width: 100%; max-width: 600px; overflow: hidden; animation: slideUp 0.25s ease; box-shadow: 0 -8px 40px rgba(44,26,14,0.25); }
+    .play-sheet-thumb { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg,#2c1a0e,#5a3620); background-size: cover; background-position: center; position: relative; }
+    .play-sheet-thumb::after { content:'▶'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:52px; color:rgba(255,255,255,0.85); text-shadow:0 4px 20px rgba(0,0,0,0.5); }
+    .play-sheet-body { padding: 18px 22px 28px; text-align: center; }
+    .play-sheet-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+    .play-sheet-title { font-family: 'Playfair Display', serif; font-size: 19px; color: var(--text); margin-bottom: 5px; line-height: 1.3; }
+    .play-sheet-hint { font-size: 12px; color: var(--muted); margin-bottom: 18px; }
+    .play-btn-main { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 15px; background: #ff0000; color: white; border: none; border-radius: 13px; font-size: 15px; font-weight: 700; font-family: 'Lato', sans-serif; cursor: pointer; margin-bottom: 9px; }
+    .play-btn-secondary { display: block; width: 100%; padding: 13px; background: var(--tag-bg); color: var(--text); border: 1.5px solid var(--border); border-radius: 13px; font-size: 14px; font-weight: 700; font-family: 'Lato', sans-serif; cursor: pointer; margin-bottom: 9px; }
+    .play-btn-cancel { display: block; width: 100%; padding: 11px; background: none; color: var(--muted); border: none; font-size: 13px; font-family: 'Lato', sans-serif; cursor: pointer; }
+
+    /* ADD MODAL */
+    .add-modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(20,10,4,0.7); z-index: 400; align-items: flex-end; justify-content: center; }
+    .add-modal-backdrop.open { display: flex; }
+    .add-modal { background: var(--card); border-radius: 24px 24px 0 0; padding: 24px 20px 32px; width: 100%; max-width: 600px; box-shadow: 0 -8px 40px rgba(44,26,14,0.2); animation: slideUp 0.25s ease; max-height: 90vh; overflow-y: auto; }
+    @keyframes slideUp { from{transform:translateY(60px);opacity:0} to{transform:translateY(0);opacity:1} }
+    .add-modal h2 { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 16px; }
+    .field { margin-bottom: 13px; }
+    .field label { display: block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+    .field input, .field textarea { width: 100%; padding: 11px 13px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 15px; font-family: 'Lato', sans-serif; color: var(--text); background: var(--bg); outline: none; transition: border-color 0.2s; }
+    .field input:focus, .field textarea:focus { border-color: var(--accent2); }
+    .field textarea { resize: vertical; min-height: 65px; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 16px; }
+    .btn-primary { flex: 1; padding: 13px; background: var(--accent); color: white; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; font-family: 'Lato', sans-serif; cursor: pointer; }
+    .btn-secondary { padding: 13px 18px; background: var(--tag-bg); color: var(--muted); border: none; border-radius: 12px; font-size: 15px; font-weight: 700; font-family: 'Lato', sans-serif; cursor: pointer; }
+
+    /* USER MENU */
+    .user-menu { position: fixed; top: 58px; right: 14px; background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 16px; z-index: 300; box-shadow: var(--shadow); min-width: 220px; display: none; animation: fadeIn 0.15s ease; }
+    .user-menu.open { display: block; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+    .user-menu-name { font-weight: 700; font-size: 14px; margin-bottom: 2px; }
+    .user-menu-email { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+    .user-menu hr { border: none; border-top: 1px solid var(--border); margin-bottom: 10px; }
+    .user-menu-btn { display: block; width: 100%; text-align: left; padding: 9px 10px; background: none; border: none; border-radius: 8px; font-size: 13px; font-family: 'Lato', sans-serif; cursor: pointer; color: var(--text); transition: background 0.15s; }
+    .user-menu-btn:hover { background: var(--tag-bg); }
+    .user-menu-btn.danger { color: var(--accent); }
+
+    .empty-state { text-align: center; padding: 50px 20px; color: var(--muted); }
+    .empty-state .icon { font-size: 52px; margin-bottom: 14px; }
+    .empty-state h3 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--text); margin-bottom: 7px; }
+    .no-results { display: none; text-align: center; padding: 40px 20px; color: var(--muted); }
+    .toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--text); color: #fdf6ec; padding: 11px 22px; border-radius: 30px; font-size: 13px; font-weight: 700; z-index: 999; transition: transform 0.3s ease; white-space: nowrap; }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">🍳</div>
+    <div>
+      <div class="logo-text">Kitchen Recipes</div>
+      <div class="logo-sub">Synced via Google Drive</div>
+    </div>
+  </div>
+  <div class="header-right" id="headerRight">
+    <button class="header-btn" onclick="signIn()">Sign In</button>
+  </div>
+</header>
+
+<div id="syncBar">
+  <span><span class="sync-dot grey" id="syncDot"></span><span id="syncMsg">Not signed in</span></span>
+  <span id="syncTime"></span>
+</div>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <div class="login-icon">🍳</div>
+  <div class="login-title">Kitchen Recipes</div>
+  <div class="login-sub">Your personal YouTube recipe collection — synced across all devices via Google Drive.</div>
+  <ul class="login-features">
+    <li>Recipes saved to your Google Drive</li>
+    <li>Share with family &amp; friends</li>
+    <li>Works on any phone, tablet or PC</li>
+    <li>Always up to date on every device</li>
+  </ul>
+  <button class="btn-google" onclick="signIn()">
+    <img src="https://www.google.com/favicon.ico" alt="G" />
+    Continue with Google
+  </button>
+</div>
+
+<!-- MAIN APP -->
+<div id="appScreen">
+  <div class="search-bar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search recipes, categories…" oninput="onSearch(this.value)" />
+      <button class="clear-btn" id="clearBtn" onclick="clearSearch()">✕</button>
+    </div>
+    <button class="btn-primary" style="padding:11px 16px;border-radius:12px;white-space:nowrap;flex-shrink:0" onclick="openAddModal()">+ Add</button>
+  </div>
+  <div class="category-chips" id="categoryChips"></div>
+  <div class="tabs">
+    <button class="tab active" id="tabAll" onclick="switchTab('all')">All Recipes</button>
+    <button class="tab" id="tabFav" onclick="switchTab('favorites')">⭐ Favorites</button>
+  </div>
+  <div class="grid-section">
+    <div class="section-title"><span>📋</span> All Recipes <span class="count-badge" id="countBadge">0</span></div>
+    <div class="recipe-grid" id="recipeGrid"></div>
+    <div class="no-results" id="noResults"><div style="font-size:44px;margin-bottom:10px">🥗</div><p>No recipes match your search.</p></div>
+  </div>
+</div>
+
+<!-- VIDEO MODAL -->
+<div class="modal-backdrop" id="videoModal" onclick="if(event.target===this)closeVideo()">
+  <div class="play-sheet">
+    <div class="play-sheet-thumb" id="playSheetThumb"></div>
+    <div class="play-sheet-body">
+      <div class="play-sheet-label">▶ Ready to Watch</div>
+      <div class="play-sheet-title" id="videoTitle"></div>
+      <div class="play-sheet-hint">Choose how to open this recipe video</div>
+      <button class="play-btn-main" onclick="openYouTubeApp()">▶ Open in YouTube App</button>
+      <button class="play-btn-secondary" onclick="openYouTubeBrowser()">🌐 Open in Browser</button>
+      <button class="play-btn-cancel" onclick="closeVideo()">✕ Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD MODAL -->
+<div class="add-modal-backdrop" id="addModal" onclick="if(event.target===this)closeAddModal()">
+  <div class="add-modal">
+    <h2 id="modalHeading">Add New Recipe</h2>
+    <div class="field"><label>Recipe Name *</label><input type="text" id="fName" placeholder="e.g. Grandma's Pasta" /></div>
+    <div class="field"><label>YouTube URL *</label><input type="url" id="fUrl" placeholder="https://www.youtube.com/watch?v=..." /></div>
+    <div class="field">
+      <label>Category</label>
+      <input type="text" id="fCategory" placeholder="e.g. Pasta, Dessert, Chicken…" list="catList" />
+      <datalist id="catList"></datalist>
+    </div>
+    <div class="field"><label>Notes (optional)</label><textarea id="fNotes" placeholder="Quick notes…"></textarea></div>
+    <div class="field" style="display:flex;align-items:center;gap:10px">
+      <input type="checkbox" id="fFav" style="width:18px;height:18px;accent-color:var(--accent)" />
+      <label for="fFav" style="text-transform:none;letter-spacing:0;font-size:14px;color:var(--text);margin:0">Mark as Favorite ⭐</label>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeAddModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveRecipe()">Save Recipe</button>
+    </div>
+  </div>
+</div>
+
+<!-- USER MENU -->
+<div class="user-menu" id="userMenu">
+  <div class="user-menu-name" id="umName"></div>
+  <div class="user-menu-email" id="umEmail"></div>
+  <hr />
+  <button class="user-menu-btn" onclick="syncNow()">🔄 Sync Now</button>
+  <button class="user-menu-btn danger" onclick="signOut()">🚪 Sign Out</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CONFIG ────────────────────────────────────────────
+const CLIENT_ID = '519258434120-ol816dvudb3p92tkr1s8hslhfpdo2mtc.apps.googleusercontent.com';
+const API_KEY   = 'AIzaSyDkt3cAJ1w_Cusz6eklrnifU0IrQCTF1C0';
+const SCOPES    = 'https://www.googleapis.com/auth/drive.appdata';
+const FILE_NAME = 'kitchen_recipes.json';
+
+// ── STATE ─────────────────────────────────────────────
+let recipes = [], editingId = null, currentTab = 'all', currentCat = 'All';
+let editMode = false, driveFileId = null, accessToken = null, syncTimeout = null;
+
+// ── GOOGLE SIGN IN ────────────────────────────────────
+function signIn() {
+  const client = google.accounts.oauth2.initTokenClient({
+    client_id: CLIENT_ID,
+    scope: SCOPES,
+    callback: async (resp) => {
+      if (resp.error) { showToast('❌ Sign in failed: ' + resp.error); return; }
+      accessToken = resp.access_token;
+      await fetchUserInfo();
+      showApp();
+      setSyncStatus('orange', 'Loading recipes…');
+      await loadFromDrive();
+    }
+  });
+  client.requestAccessToken();
+}
+
+async function fetchUserInfo() {
+  try {
+    const r = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', { headers: { Authorization: 'Bearer ' + accessToken } });
+    const u = await r.json();
+    document.getElementById('headerRight').innerHTML = `
+      <button class="header-btn" id="editBtn" onclick="toggleEditMode()">✏️ Edit</button>
+      <img class="avatar" src="${u.picture}" onclick="toggleUserMenu()" title="${u.name}" />`;
+    document.getElementById('umName').textContent  = u.name;
+    document.getElementById('umEmail').textContent = u.email;
+  } catch(e) {}
+}
+
+function showApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('appScreen').style.display   = 'block';
+}
+
+function signOut() {
+  if (accessToken) google.accounts.oauth2.revoke(accessToken, ()=>{});
+  accessToken = null; driveFileId = null; recipes = [];
+  document.getElementById('appScreen').style.display   = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('headerRight').innerHTML = `<button class="header-btn" onclick="signIn()">Sign In</button>`;
+  setSyncStatus('grey', 'Not signed in');
+  document.getElementById('syncTime').textContent = '';
+  closeUserMenu(); showToast('👋 Signed out');
+}
+
+// ── GOOGLE DRIVE ──────────────────────────────────────
+async function driveReq(url, opts = {}) {
+  const r = await fetch(url, { ...opts, headers: { 'Authorization': 'Bearer ' + accessToken, 'Content-Type': 'application/json', ...(opts.headers||{}) } });
+  if (r.status === 401) { showToast('⚠️ Session expired. Please sign in again.'); signOut(); throw new Error('401'); }
+  return r;
+}
+
+async function findFile() {
+  const q = encodeURIComponent(`name='${FILE_NAME}' and trashed=false`);
+  const r = await driveReq(`https://www.googleapis.com/drive/v3/files?q=${q}&spaces=appDataFolder&fields=files(id)`);
+  const d = await r.json();
+  return d.files && d.files.length ? d.files[0].id : null;
+}
+
+async function loadFromDrive() {
+  try {
+    setSyncStatus('orange', 'Syncing…');
+    driveFileId = await findFile();
+    if (driveFileId) {
+      const r = await driveReq(`https://www.googleapis.com/drive/v3/files/${driveFileId}?alt=media`);
+      const d = await r.json();
+      recipes = Array.isArray(d) ? d : (d.recipes || []);
+    } else {
+      recipes = defaultRecipes();
+      await saveToDrive();
+    }
+    render();
+    setSyncStatus('green', 'Synced with Google Drive');
+    setLastSync();
+  } catch(e) {
+    if (e.message !== '401') {
+      setSyncStatus('red', 'Sync failed');
+      showToast('⚠️ Could not load from Drive');
+    }
+  }
+}
+
+async function saveToDrive() {
+  if (!accessToken) return;
+  try {
+    setSyncStatus('orange', 'Saving to Drive…');
+    const body = JSON.stringify(recipes);
+    if (driveFileId) {
+      await driveReq(`https://www.googleapis.com/upload/drive/v3/files/${driveFileId}?uploadType=media`, { method:'PATCH', headers:{'Content-Type':'application/json'}, body });
+    } else {
+      const m = await driveReq('https://www.googleapis.com/drive/v3/files', { method:'POST', body: JSON.stringify({ name: FILE_NAME, parents: ['appDataFolder'] }) });
+      const f = await m.json(); driveFileId = f.id;
+      await driveReq(`https://www.googleapis.com/upload/drive/v3/files/${driveFileId}?uploadType=media`, { method:'PATCH', headers:{'Content-Type':'application/json'}, body });
+    }
+    setSyncStatus('green', 'Saved to Google Drive ✓');
+    setLastSync();
+  } catch(e) {
+    if (e.message !== '401') { setSyncStatus('red', 'Save failed'); showToast('❌ Could not save to Drive'); }
+  }
+}
+
+function scheduleSave() {
+  clearTimeout(syncTimeout);
+  setSyncStatus('orange', 'Unsaved changes…');
+  syncTimeout = setTimeout(() => saveToDrive(), 1500);
+}
+
+async function syncNow() { closeUserMenu(); showToast('🔄 Syncing…'); await loadFromDrive(); }
+
+function setSyncStatus(color, msg) {
+  document.getElementById('syncDot').className = 'sync-dot ' + color;
+  document.getElementById('syncMsg').textContent = msg;
+}
+function setLastSync() {
+  document.getElementById('syncTime').textContent = 'Last sync: ' + new Date().toLocaleTimeString();
+}
+
+// ── USER MENU ─────────────────────────────────────────
+function toggleUserMenu() { document.getElementById('userMenu').classList.toggle('open'); }
+function closeUserMenu()  { document.getElementById('userMenu').classList.remove('open'); }
+document.addEventListener('click', e => { if (!e.target.closest('.user-menu') && !e.target.closest('.avatar')) closeUserMenu(); });
+
+// ── DEFAULT RECIPES ───────────────────────────────────
+function defaultRecipes() {
+  return [
+    { id:'r1', name:'Classic Spaghetti Carbonara', url:'https://www.youtube.com/watch?v=3AAdKl1UYZs', category:'Pasta',   notes:'Use guanciale for authentic flavor', favorite:true  },
+    { id:'r2', name:'Perfect Roast Chicken',       url:'https://www.youtube.com/watch?v=foCHjHd_dPI', category:'Chicken', notes:'Pat dry before roasting',           favorite:false },
+    { id:'r3', name:'Chocolate Lava Cake',          url:'https://www.youtube.com/watch?v=BEI5R7bJSBo', category:'Dessert', notes:'Do not over-bake!',                 favorite:true  },
+    { id:'r4', name:'Thai Green Curry',             url:'https://www.youtube.com/watch?v=PBQs4Hg0oIM', category:'Asian',   notes:'Use full-fat coconut milk',         favorite:false },
+  ];
+}
+
+// ── YOUTUBE ───────────────────────────────────────────
+function extractVideoId(url) {
+  for (const p of [/[?&]v=([^&#]+)/,/youtu\.be\/([^?&#]+)/,/\/embed\/([^?&#]+)/,/\/shorts\/([^?&#]+)/]) {
+    const m = url.match(p); if (m) return m[1];
+  }
+  return null;
+}
+function thumbUrl(url) { const id = extractVideoId(url); return id ? `https://img.youtube.com/vi/${id}/mqdefault.jpg` : null; }
+
+// ── CATEGORIES ────────────────────────────────────────
+function getCategories() { return ['All',...[...new Set(recipes.map(r=>r.category).filter(Boolean))].sort()]; }
+function renderChips() {
+  document.getElementById('categoryChips').innerHTML = getCategories().map(c=>`<button class="chip ${c===currentCat?'active':''}" onclick="setCategory('${c}')">${c}</button>`).join('');
+  document.getElementById('catList').innerHTML = getCategories().filter(c=>c!=='All').map(c=>`<option value="${c}">`).join('');
+}
+function setCategory(c) { currentCat = c; render(); }
+
+// ── RENDER ────────────────────────────────────────────
+function filtered() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  return recipes.filter(r => {
+    const matchTab = currentTab==='all' || r.favorite;
+    const matchCat = currentCat==='All'  || r.category===currentCat;
+    const matchQ   = !q || r.name.toLowerCase().includes(q)||(r.category||'').toLowerCase().includes(q)||(r.notes||'').toLowerCase().includes(q);
+    return matchTab && matchCat && matchQ;
+  });
+}
+
+function render() {
+  renderChips();
+  const list = filtered();
+  const grid = document.getElementById('recipeGrid');
+  document.getElementById('countBadge').textContent = list.length;
+  document.getElementById('noResults').style.display = list.length===0 && recipes.length>0 ? 'block':'none';
+  if (list.length===0 && recipes.length===0) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="icon">👨‍🍳</div><h3>Your recipe book is empty</h3><p>Tap <strong>+ Add</strong> to add your first recipe!</p></div>`; return;
+  }
+  grid.innerHTML = list.map(r => {
+    const t = thumbUrl(r.url);
+    const thumbHtml = t
+      ? `<img class="card-thumb" src="${t}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy"/><div class="card-thumb-placeholder" style="display:none">🎬</div>`
+      : `<div class="card-thumb-placeholder">🎬</div>`;
+    return `<div class="recipe-card ${editMode?'edit-mode':''}" onclick="playRecipe('${r.id}')">
+      ${thumbHtml}
+      <div class="play-overlay">▶</div>
+      <button class="delete-btn" onclick="deleteRecipe(event,'${r.id}')">🗑</button>
+      <div class="card-body">
+        <div class="card-title">${r.name}</div>
+        <div class="card-meta">
+          ${r.category?`<span class="tag">${r.category}</span>`:''}
+          ${r.favorite?`<span class="tag" style="background:#fce4ec;color:#c0392b">⭐ Fav</span>`:''}
+        </div>
+        ${r.notes?`<div class="card-desc">${r.notes}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── PLAY ──────────────────────────────────────────────
+function playRecipe(id) {
+  if (editMode) return;
+  const r = recipes.find(x=>x.id===id); if (!r) return;
+  const vid = extractVideoId(r.url); if (!vid) { showToast('❌ Invalid URL'); return; }
+  document.getElementById('videoTitle').textContent = r.name;
+  document.getElementById('playSheetThumb').style.backgroundImage = `url(https://img.youtube.com/vi/${vid}/mqdefault.jpg)`;
+  document.getElementById('videoModal').classList.add('open');
+  window._vid = vid; window._vidUrl = `https://www.youtube.com/watch?v=${vid}`;
+}
+function openYouTubeApp()     { window.location.href = `vnd.youtube:${window._vid}`; setTimeout(()=>window.open(window._vidUrl,'_blank'),1200); }
+function openYouTubeBrowser() { window.open(window._vidUrl,'_blank'); }
+function closeVideo()         { document.getElementById('videoModal').classList.remove('open'); }
+
+// ── ADD / EDIT / DELETE ────────────────────────────────
+function openAddModal(id=null) {
+  editingId = id;
+  const r = id ? recipes.find(x=>x.id===id) : null;
+  document.getElementById('modalHeading').textContent = r?'Edit Recipe':'Add New Recipe';
+  document.getElementById('fName').value     = r?r.name    :'';
+  document.getElementById('fUrl').value      = r?r.url     :'';
+  document.getElementById('fCategory').value = r?r.category:'';
+  document.getElementById('fNotes').value    = r?r.notes   :'';
+  document.getElementById('fFav').checked    = r?r.favorite:false;
+  document.getElementById('addModal').classList.add('open');
+  setTimeout(()=>document.getElementById('fName').focus(),300);
+}
+function closeAddModal() { document.getElementById('addModal').classList.remove('open'); editingId=null; }
+
+function saveRecipe() {
+  const name = document.getElementById('fName').value.trim();
+  const url  = document.getElementById('fUrl').value.trim();
+  if (!name)                    { showToast('⚠️ Please enter a recipe name');    return; }
+  if (!url||!extractVideoId(url)){ showToast('⚠️ Please enter a valid YouTube URL'); return; }
+  const data = { name, url, category: document.getElementById('fCategory').value.trim(), notes: document.getElementById('fNotes').value.trim(), favorite: document.getElementById('fFav').checked };
+  if (editingId) { Object.assign(recipes.find(x=>x.id===editingId), data); }
+  else           { recipes.push({ id:'r'+Date.now(), ...data }); }
+  closeAddModal(); render();
+  showToast(editingId?'✅ Recipe updated!':'✅ Recipe added!');
+  scheduleSave();
+}
+
+function deleteRecipe(e, id) {
+  e.stopPropagation();
+  if (!confirm('Delete this recipe?')) return;
+  recipes = recipes.filter(r=>r.id!==id);
+  render(); showToast('🗑 Recipe deleted'); scheduleSave();
+}
+
+// ── EDIT MODE / SEARCH / TABS ─────────────────────────
+function toggleEditMode() {
+  editMode = !editMode;
+  const b = document.getElementById('editBtn'); if(b) b.textContent = editMode?'✅ Done':'✏️ Edit';
+  render();
+}
+function onSearch(val) { document.getElementById('clearBtn').style.display=val?'block':'none'; render(); }
+function clearSearch() { document.getElementById('searchInput').value=''; document.getElementById('clearBtn').style.display='none'; render(); }
+function switchTab(tab) {
+  currentTab=tab;
+  document.getElementById('tabAll').classList.toggle('active',tab==='all');
+  document.getElementById('tabFav').classList.toggle('active',tab==='favorites');
+  document.querySelector('.section-title').innerHTML = tab==='all'
+    ?`<span>📋</span> All Recipes <span class="count-badge" id="countBadge">0</span>`
+    :`<span>⭐</span> Favorites <span class="count-badge" id="countBadge">0</span>`;
+  render();
+}
+
+// ── TOAST ─────────────────────────────────────────────
+function showToast(msg) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2800); }
+
+// ── KEYBOARD ──────────────────────────────────────────
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){closeVideo();closeAddModal();} });
+
+// ── SERVICE WORKER ────────────────────────────────────
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
