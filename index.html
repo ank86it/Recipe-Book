@@ -386,10 +386,15 @@ function saveName() {
 async function loadData() {
   setSyncStatus('orange', 'Loading…');
   try {
-    const r = await fetch(BIN_URL + '/latest', { headers: { 'X-Master-Key': ACCESS_KEY } });
+    const r = await fetch(BIN_URL + '/latest', {
+      method: 'GET',
+      headers: {
+        'X-Master-Key': ACCESS_KEY,
+        'X-Bin-Meta': 'false'
+      }
+    });
     if (!r.ok) throw new Error('Fetch failed: ' + r.status);
-    const d = await r.json();
-    const data = d.record;
+    const data = await r.json();
     recipes    = Array.isArray(data.recipes)    ? data.recipes    : [];
     categories = Array.isArray(data.categories) ? data.categories : categories;
     // Cache locally
