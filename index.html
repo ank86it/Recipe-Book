@@ -205,6 +205,7 @@
   <div style="display:flex;gap:8px;flex-wrap:wrap">
     <button class="hbtn" style="background:var(--accent2);border-color:var(--accent2)" onclick="openCategoryManager()">🏷️ Manage Categories</button>
     <button class="hbtn" style="background:var(--surface);color:var(--muted);border-color:var(--border)" onclick="syncNow()">🔄 Sync Now</button>
+    <button class="hbtn" style="background:var(--surface);color:var(--muted);border-color:var(--border)" onclick="openTokenModal()">🔑 GitHub Token</button>
   </div>
   <div style="font-size:11px;color:var(--muted);margin-top:8px">Tap 🗑 on any recipe card to delete it</div>
 </div>
@@ -283,6 +284,31 @@
     <div class="mactions">
       <button class="btn-s" onclick="closeRenameCat()">Cancel</button>
       <button class="btn-p" onclick="confirmRenameCategory()">Rename</button>
+    </div>
+  </div>
+</div>
+
+<!-- GITHUB TOKEN MODAL -->
+<div class="sheet-backdrop" id="tokenModal" onclick="if(event.target===this)closeTokenModal()">
+  <div class="sheet">
+    <h2>🔑 GitHub Token</h2>
+    <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:16px">
+      Paste your GitHub Personal Access Token below. This is saved <strong>only on this device</strong> and lets the app save recipes back to your GitHub repo so everyone stays in sync.
+    </p>
+    <div class="field">
+      <label>Personal Access Token</label>
+      <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off"/>
+    </div>
+    <div id="tokenStatus" style="font-size:12px;margin-bottom:4px"></div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.6">
+      📋 To get a token: <strong>github.com → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token</strong> — tick the <strong>repo</strong> scope, set <em>No expiration</em>.
+    </div>
+    <div class="mactions">
+      <button class="btn-s" onclick="closeTokenModal()">Cancel</button>
+      <button class="btn-p" onclick="saveToken()">Save Token</button>
+    </div>
+    <div style="margin-top:12px;text-align:center">
+      <button onclick="clearToken()" style="background:none;border:none;color:var(--accent);font-size:12px;cursor:pointer;font-family:'Lato',sans-serif">🗑 Remove saved token</button>
     </div>
   </div>
 </div>
@@ -434,15 +460,56 @@ async function syncNow() {
   await loadData();
 }
 
+// ══════════════════════════════════════════════════
+//  GITHUB TOKEN MODAL
+// ══════════════════════════════════════════════════
+function openTokenModal() {
+  const saved = localStorage.getItem('gh_token') || '';
+  document.getElementById('tokenInput').value = saved ? '••••••••••••••••••••' : '';
+  const status = document.getElementById('tokenStatus');
+  if (saved) {
+    status.innerHTML = '<span style="color:var(--green)">✅ Token saved on this device</span>';
+  } else {
+    status.innerHTML = '<span style="color:var(--muted)">No token saved yet — recipes save locally only</span>';
+  }
+  document.getElementById('tokenModal').classList.add('open');
+  if (!saved) setTimeout(() => document.getElementById('tokenInput').focus(), 300);
+}
+
+function closeTokenModal() {
+  document.getElementById('tokenModal').classList.remove('open');
+}
+
+function saveToken() {
+  const val = document.getElementById('tokenInput').value.trim();
+  if (!val || val.startsWith('•')) { showToast('⚠️ Please paste your token'); return; }
+  if (!val.startsWith('ghp_') && !val.startsWith('github_pat_')) {
+    showToast('⚠️ Token should start with ghp_ or github_pat_'); return;
+  }
+  localStorage.setItem('gh_token', val);
+  closeTokenModal();
+  showToast('✅ Token saved! Syncing now…');
+  // Push any pending local changes immediately
+  saveData();
+}
+
+function clearToken() {
+  if (!confirm('Remove saved GitHub token from this device?')) return;
+  localStorage.removeItem('gh_token');
+  closeTokenModal();
+  showToast('🗑 Token removed');
+}
+
 function showNoTokenGuide() {
-  // Show a one-time floating tip about adding token
-  const hasToken = localStorage.getItem('gh_token');
-  if (hasToken) return;
+  // Only show once per session, not on every save
+  if (sessionStorage.getItem('token_tip_shown')) return;
+  sessionStorage.setItem('token_tip_shown', '1');
   const tip = document.createElement('div');
-  tip.style.cssText = 'position:fixed;bottom:60px;left:50%;transform:translateX(-50%);background:var(--text);color:#fdf6ec;padding:12px 18px;border-radius:14px;font-size:12px;z-index:999;max-width:320px;text-align:center;line-height:1.5';
-  tip.innerHTML = `⚠️ To sync across devices, add your GitHub token in Edit → Settings. Recipe saved locally for now.`;
+  tip.style.cssText = 'position:fixed;bottom:60px;left:50%;transform:translateX(-50%);background:var(--text);color:#fdf6ec;padding:12px 18px;border-radius:14px;font-size:12px;z-index:999;max-width:300px;text-align:center;line-height:1.6;cursor:pointer';
+  tip.innerHTML = `⚠️ Tap to add GitHub token for sync across devices`;
+  tip.onclick = () => { tip.remove(); toggleEditMode(); openTokenModal(); };
   document.body.appendChild(tip);
-  setTimeout(() => tip.remove(), 5000);
+  setTimeout(() => { if (tip.parentNode) tip.remove(); }, 5000);
 }
 
 // ══════════════════════════════════════════════════
@@ -766,7 +833,7 @@ function showToast(msg) {
 //  KEYBOARD
 // ══════════════════════════════════════════════════
 document.addEventListener('keydown', e => {
-  if (e.key==='Escape') { closeVideo(); closeAddModal(); closeCatModal(); closeRenameCat(); }
+  if (e.key==='Escape') { closeVideo(); closeAddModal(); closeCatModal(); closeRenameCat(); closeTokenModal(); }
 });
 
 // ══════════════════════════════════════════════════
