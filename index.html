@@ -79,6 +79,7 @@
     .play-ov{position:absolute;top:7px;right:7px;background:rgba(192,57,43,0.9);color:white;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:11px}
     .del-btn{position:absolute;top:7px;left:7px;background:rgba(44,26,14,0.78);color:white;border:none;border-radius:50%;width:27px;height:27px;display:none;align-items:center;justify-content:center;font-size:12px;cursor:pointer}
     .edit-mode .del-btn{display:flex}
+    .adder-badge{display:inline-block;background:#e8f5e9;color:#2e7d32;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;text-transform:uppercase}
     .added-by{font-size:10px;color:var(--muted);margin-top:4px}
 
     /* PLAY SHEET */
@@ -95,7 +96,7 @@
     .pbtn-grey{display:block;width:100%;padding:12px;background:var(--tag-bg);color:var(--text);border:1.5px solid var(--border);border-radius:12px;font-size:13px;font-weight:700;font-family:'Lato',sans-serif;cursor:pointer;margin-bottom:8px}
     .pbtn-cancel{display:block;width:100%;padding:10px;background:none;color:var(--muted);border:none;font-size:12px;font-family:'Lato',sans-serif;cursor:pointer}
 
-    /* BOTTOM SHEET (add/edit/category) */
+    /* BOTTOM SHEET */
     .sheet-backdrop{display:none;position:fixed;inset:0;background:rgba(20,10,4,0.68);z-index:400;align-items:flex-end;justify-content:center}
     .sheet-backdrop.open{display:flex}
     .sheet{background:var(--card);border-radius:24px 24px 0 0;padding:22px 18px 30px;width:100%;max-width:580px;box-shadow:0 -8px 40px rgba(44,26,14,0.2);animation:slideUp 0.25s ease;max-height:92vh;overflow-y:auto}
@@ -106,16 +107,20 @@
     .field input,.field textarea{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:15px;font-family:'Lato',sans-serif;color:var(--text);background:var(--bg);outline:none;transition:border-color 0.2s}
     .field input:focus,.field textarea:focus{border-color:var(--accent2)}
     .field textarea{resize:vertical;min-height:60px}
-    .field select{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:15px;font-family:'Lato',sans-serif;color:var(--text);background:var(--bg);outline:none}
     .mactions{display:flex;gap:9px;margin-top:15px}
     .btn-p{flex:1;padding:12px;background:var(--accent);color:white;border:none;border-radius:11px;font-size:14px;font-weight:700;font-family:'Lato',sans-serif;cursor:pointer}
     .btn-s{padding:12px 16px;background:var(--tag-bg);color:var(--muted);border:none;border-radius:11px;font-size:14px;font-weight:700;font-family:'Lato',sans-serif;cursor:pointer}
 
+    /* MULTI CATEGORY PICKER */
+    .cat-picker{display:flex;flex-wrap:wrap;gap:7px;padding:8px 0 4px}
+    .cat-pick-chip{padding:5px 13px;border-radius:20px;border:1.5px solid var(--border);background:var(--card);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;transition:all 0.18s;user-select:none}
+    .cat-pick-chip.selected{background:var(--accent);border-color:var(--accent);color:white}
+    .cat-pick-chip:hover:not(.selected){border-color:var(--accent2);color:var(--text)}
+    .cat-pick-hint{font-size:11px;color:var(--muted);margin-top:3px}
+
     /* CATEGORY MANAGER */
-    .cat-list{margin-bottom:14px}
     .cat-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;margin-bottom:8px}
     .cat-row-name{font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
-    .cat-row-emoji{font-size:18px}
     .cat-row-actions{display:flex;gap:6px}
     .cat-action-btn{background:var(--tag-bg);border:none;border-radius:8px;padding:6px 10px;font-size:13px;cursor:pointer;transition:background 0.15s}
     .cat-action-btn:hover{background:var(--border)}
@@ -125,19 +130,15 @@
     .add-cat-row input:focus{border-color:var(--accent2)}
     .add-cat-row button{padding:9px 14px;background:var(--accent);color:white;border:none;border-radius:9px;font-size:13px;font-weight:700;font-family:'Lato',sans-serif;cursor:pointer}
 
-    /* MULTI-CATEGORY PICKER */
-    .cat-picker{display:flex;flex-wrap:wrap;gap:7px;padding:8px 0 4px}
-    .cat-pick-chip{padding:5px 13px;border-radius:20px;border:1.5px solid var(--border);background:var(--card);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;transition:all 0.18s;user-select:none}
-    .cat-pick-chip.selected{background:var(--accent);border-color:var(--accent);color:white}
-    .cat-pick-chip:hover:not(.selected){border-color:var(--accent2);color:var(--text)}
-    .cat-pick-hint{font-size:11px;color:var(--muted);margin-top:3px}
-
     /* NAME PROMPT */
     .name-prompt{background:var(--card);border-radius:24px 24px 0 0;padding:22px 18px 30px;width:100%;max-width:580px;animation:slideUp 0.25s ease}
     .name-prompt h2{font-family:'Playfair Display',serif;font-size:19px;margin-bottom:8px}
     .name-prompt p{font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.5}
 
-    /* EMPTY */
+    /* OWNER PIN */
+    .owner-badge{background:#fff3e0;color:#e65100;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;display:inline-block;margin-left:6px}
+
+    /* EMPTY / NO RESULTS */
     .empty{text-align:center;padding:46px 18px;color:var(--muted)}
     .empty .icon{font-size:50px;margin-bottom:13px}
     .empty h3{font-family:'Playfair Display',serif;font-size:19px;color:var(--text);margin-bottom:6px}
@@ -147,11 +148,21 @@
     .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:#fdf6ec;padding:10px 20px;border-radius:28px;font-size:12px;font-weight:700;z-index:999;transition:transform 0.3s ease;white-space:nowrap}
     .toast.show{transform:translateX(-50%) translateY(0)}
 
-    /* ADDER NAME BADGE */
-    .adder-badge{display:inline-block;background:#e8f5e9;color:#2e7d32;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;text-transform:uppercase}
+    /* LOADING OVERLAY */
+    #loadingOverlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:16px}
+    .spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    #loadingOverlay p{font-family:'Playfair Display',serif;font-size:18px;color:var(--muted)}
   </style>
 </head>
 <body>
+
+<!-- LOADING OVERLAY -->
+<div id="loadingOverlay">
+  <div style="font-size:48px">🍳</div>
+  <div class="spinner"></div>
+  <p>Loading recipes…</p>
+</div>
 
 <!-- HEADER -->
 <header>
@@ -178,12 +189,12 @@
 <div class="search-bar">
   <div class="search-wrap">
     <span class="si">🔍</span>
-    <input type="text" id="searchInput" placeholder="Search recipes…" oninput="onSearch(this.value)"/>
+    <input type="text" id="searchInput" placeholder="Search recipes, categories…" oninput="onSearch(this.value)"/>
     <button class="clr" id="clearBtn" onclick="clearSearch()">✕</button>
   </div>
 </div>
 
-<!-- CATEGORY CHIPS -->
+<!-- CHIPS -->
 <div class="chips" id="chipsBar"></div>
 
 <!-- TABS -->
@@ -199,15 +210,15 @@
   <div class="no-res" id="noResults"><div style="font-size:42px;margin-bottom:9px">🥗</div><p>No recipes match your search.</p></div>
 </div>
 
-<!-- EDIT MODE PANEL -->
+<!-- EDIT PANEL -->
 <div id="editPanel" style="display:none;background:var(--surface);border-top:2px solid var(--border);padding:12px 16px">
-  <div style="font-family:'Playfair Display',serif;font-size:15px;margin-bottom:10px;color:var(--text)">✏️ Edit Mode</div>
+  <div style="font-family:'Playfair Display',serif;font-size:15px;margin-bottom:10px;color:var(--text)">✏️ Edit Mode <span class="owner-badge" id="ownerBadge" style="display:none">OWNER</span></div>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
     <button class="hbtn" style="background:var(--accent2);border-color:var(--accent2)" onclick="openCategoryManager()">🏷️ Manage Categories</button>
     <button class="hbtn" style="background:var(--surface);color:var(--muted);border-color:var(--border)" onclick="syncNow()">🔄 Sync Now</button>
-    <button class="hbtn" style="background:var(--surface);color:var(--muted);border-color:var(--border)" onclick="openTokenModal()">🔑 GitHub Token</button>
+    <button class="hbtn" style="background:var(--surface);color:var(--muted);border-color:var(--border)" id="ownerPinBtn" onclick="openOwnerPin()">🔐 Owner PIN</button>
   </div>
-  <div style="font-size:11px;color:var(--muted);margin-top:8px">Tap 🗑 on any recipe card to delete it</div>
+  <div style="font-size:11px;color:var(--muted);margin-top:8px" id="editHint">Tap 🗑 on any recipe card to delete it (owner only)</div>
 </div>
 
 <!-- VIDEO MODAL -->
@@ -225,7 +236,7 @@
   </div>
 </div>
 
-<!-- ADD / EDIT RECIPE SHEET -->
+<!-- ADD / EDIT SHEET -->
 <div class="sheet-backdrop" id="addModal" onclick="if(event.target===this)closeAddModal()">
   <div class="sheet">
     <h2 id="modalHeading">Add New Recipe</h2>
@@ -248,35 +259,21 @@
   </div>
 </div>
 
-<!-- CATEGORY MANAGER SHEET -->
+<!-- CATEGORY MANAGER -->
 <div class="sheet-backdrop" id="catModal" onclick="if(event.target===this)closeCatModal()">
   <div class="sheet">
     <h2>🏷️ Manage Categories</h2>
-    <div class="cat-list" id="catList"></div>
+    <div id="catList"></div>
     <div style="font-size:12px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Add New Category</div>
     <div class="add-cat-row">
       <input type="text" id="newCatInput" placeholder="e.g. Street Food, Soups…" onkeydown="if(event.key==='Enter')addCategory()"/>
       <button onclick="addCategory()">+ Add</button>
     </div>
-    <div class="mactions">
-      <button class="btn-p" onclick="closeCatModal()">✅ Done</button>
-    </div>
+    <div class="mactions"><button class="btn-p" onclick="closeCatModal()">✅ Done</button></div>
   </div>
 </div>
 
-<!-- NAME PROMPT SHEET -->
-<div class="sheet-backdrop" id="nameModal">
-  <div class="name-prompt">
-    <h2>👋 Welcome!</h2>
-    <p>Enter your name so others know who added a recipe. This is saved on your device only.</p>
-    <div class="field"><input type="text" id="nameInput" placeholder="Your name e.g. Ankit" maxlength="30"/></div>
-    <div class="mactions">
-      <button class="btn-p" onclick="saveName()">Let's Cook! 🍳</button>
-    </div>
-  </div>
-</div>
-
-<!-- RENAME CATEGORY SHEET -->
+<!-- RENAME CATEGORY -->
 <div class="sheet-backdrop" id="renameCatModal" onclick="if(event.target===this)closeRenameCat()">
   <div class="sheet">
     <h2>✏️ Rename Category</h2>
@@ -288,27 +285,46 @@
   </div>
 </div>
 
-<!-- GITHUB TOKEN MODAL -->
-<div class="sheet-backdrop" id="tokenModal" onclick="if(event.target===this)closeTokenModal()">
+<!-- NAME PROMPT -->
+<div class="sheet-backdrop" id="nameModal">
+  <div class="name-prompt">
+    <h2>👋 Welcome to Kitchen Recipes!</h2>
+    <p>Enter your name so everyone knows who added each recipe. Saved on this device only.</p>
+    <div class="field"><input type="text" id="nameInput" placeholder="Your name e.g. Ankit" maxlength="30"/></div>
+    <div class="mactions"><button class="btn-p" onclick="saveName()">Let's Cook! 🍳</button></div>
+  </div>
+</div>
+
+<!-- OWNER PIN MODAL -->
+<div class="sheet-backdrop" id="ownerPinModal" onclick="if(event.target===this)closeOwnerPin()">
   <div class="sheet">
-    <h2>🔑 GitHub Token</h2>
-    <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:16px">
-      Paste your GitHub Personal Access Token below. This is saved <strong>only on this device</strong> and lets the app save recipes back to your GitHub repo so everyone stays in sync.
+    <h2>🔐 Owner Access</h2>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6">
+      Enter the owner PIN to unlock delete permissions on this device.
+      <br/>Default PIN: <strong>1234</strong> — change it after first login.
     </p>
-    <div class="field">
-      <label>Personal Access Token</label>
-      <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off"/>
-    </div>
-    <div id="tokenStatus" style="font-size:12px;margin-bottom:4px"></div>
-    <div style="font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.6">
-      📋 To get a token: <strong>github.com → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token</strong> — tick the <strong>repo</strong> scope, set <em>No expiration</em>.
-    </div>
+    <div class="field"><label>PIN</label><input type="password" id="pinInput" placeholder="Enter PIN" maxlength="10" onkeydown="if(event.key==='Enter')checkOwnerPin()"/></div>
+    <div id="pinError" style="color:var(--accent);font-size:12px;margin-bottom:8px;display:none">❌ Wrong PIN</div>
     <div class="mactions">
-      <button class="btn-s" onclick="closeTokenModal()">Cancel</button>
-      <button class="btn-p" onclick="saveToken()">Save Token</button>
+      <button class="btn-s" onclick="closeOwnerPin()">Cancel</button>
+      <button class="btn-p" onclick="checkOwnerPin()">Unlock</button>
     </div>
-    <div style="margin-top:12px;text-align:center">
-      <button onclick="clearToken()" style="background:none;border:none;color:var(--accent);font-size:12px;cursor:pointer;font-family:'Lato',sans-serif">🗑 Remove saved token</button>
+    <div style="margin-top:12px;text-align:center" id="changePinWrap" style="display:none">
+      <button onclick="openChangePin()" style="background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;font-family:'Lato',sans-serif">Change PIN</button>
+    </div>
+  </div>
+</div>
+
+<!-- CHANGE PIN MODAL -->
+<div class="sheet-backdrop" id="changePinModal" onclick="if(event.target===this)closeChangePin()">
+  <div class="sheet">
+    <h2>🔑 Change Owner PIN</h2>
+    <div class="field"><label>Current PIN</label><input type="password" id="oldPinInput" placeholder="Current PIN"/></div>
+    <div class="field"><label>New PIN</label><input type="password" id="newPinInput" placeholder="New PIN (min 4 digits)"/></div>
+    <div id="changePinError" style="color:var(--accent);font-size:12px;margin-bottom:8px;display:none"></div>
+    <div class="mactions">
+      <button class="btn-s" onclick="closeChangePin()">Cancel</button>
+      <button class="btn-p" onclick="confirmChangePin()">Save PIN</button>
     </div>
   </div>
 </div>
@@ -317,14 +333,12 @@
 
 <script>
 // ══════════════════════════════════════════════════
-//  CONFIG — GitHub as shared database
+//  JSONBIN CONFIG
 // ══════════════════════════════════════════════════
-const GITHUB_USER   = 'ank86it';
-const GITHUB_REPO   = 'Recipe-Book';
-const RECIPES_FILE  = 'recipes.json';
-const DATA_FILE     = 'data.json'; // stores both recipes + categories
-const RAW_BASE      = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/`;
-const API_BASE      = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/`;
+const BIN_ID     = '69c1104ec3097a1dd54f473f';
+const ACCESS_KEY = '$2a$10$ke.y7.nJA6o5bCuCt4sGCOBkG5MT0W8KEdkwvB7rEEP1ufC/TRi/C';
+const BIN_URL    = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+const HEADERS    = { 'Content-Type':'application/json', 'X-Master-Key': ACCESS_KEY };
 
 // ══════════════════════════════════════════════════
 //  STATE
@@ -335,20 +349,22 @@ let editingId  = null;
 let currentTab = 'all';
 let currentCat = 'All';
 let editMode   = false;
-let fileSha    = null;   // GitHub file SHA for updates
 let syncTimer  = null;
+let selectedCats = [];
+let renamingCat  = null;
+let isOwner    = localStorage.getItem('is_owner') === 'true';
+let ownerPin   = localStorage.getItem('owner_pin') || '1234';
 let userName   = localStorage.getItem('recipe_user_name') || '';
-let renamingCat = null;
-
-const OWNER_KEY = 'recipe_owner_v1'; // set this to mark owner device
 
 // ══════════════════════════════════════════════════
 //  INIT
 // ══════════════════════════════════════════════════
 window.addEventListener('load', async () => {
-  if (!userName) { showNamePrompt(); return; }
+  if (!userName) { hideLoading(); showNamePrompt(); return; }
   await loadData();
 });
+
+function hideLoading() { document.getElementById('loadingOverlay').style.display = 'none'; }
 
 function showNamePrompt() {
   document.getElementById('nameModal').classList.add('open');
@@ -365,175 +381,131 @@ function saveName() {
 }
 
 // ══════════════════════════════════════════════════
-//  GITHUB DATA LOAD / SAVE
+//  JSONBIN — LOAD & SAVE
 // ══════════════════════════════════════════════════
 async function loadData() {
-  setSyncStatus('orange', 'Loading from GitHub…');
+  setSyncStatus('orange', 'Loading…');
   try {
-    // Use cache-busting to always get latest
-    const url = RAW_BASE + DATA_FILE + '?t=' + Date.now();
-    const r   = await fetch(url);
-    if (r.ok) {
-      const d  = await r.json();
-      recipes    = Array.isArray(d.recipes)    ? d.recipes    : [];
-      categories = Array.isArray(d.categories) ? d.categories : categories;
-    } else if (r.status === 404) {
-      // First time — file doesn't exist yet, use defaults
-      recipes = getDefaultRecipes();
-      await saveData(true);
-    }
-    render();
-    setSyncStatus('green', 'Synced with GitHub');
+    const r = await fetch(BIN_URL + '/latest', { headers: { 'X-Master-Key': ACCESS_KEY } });
+    if (!r.ok) throw new Error('Fetch failed: ' + r.status);
+    const d = await r.json();
+    const data = d.record;
+    recipes    = Array.isArray(data.recipes)    ? data.recipes    : [];
+    categories = Array.isArray(data.categories) ? data.categories : categories;
+    // Cache locally
+    localStorage.setItem('recipe_cache', JSON.stringify({ recipes, categories }));
+    setSyncStatus('green', 'Synced ✓');
     setLastSync();
   } catch(e) {
-    // Offline fallback — use localStorage cache
+    // Fallback to cache
     const cached = localStorage.getItem('recipe_cache');
     if (cached) {
       const d = JSON.parse(cached);
       recipes    = d.recipes    || [];
       categories = d.categories || categories;
-      render();
       setSyncStatus('red', 'Offline — showing cached data');
     } else {
-      recipes = getDefaultRecipes();
-      render();
       setSyncStatus('red', 'Could not load — check connection');
     }
   }
+  hideLoading();
+  render();
 }
 
-async function saveData(skipShaFetch = false) {
-  // We need a GitHub token to write — without token, guide user
-  const token = localStorage.getItem('gh_token');
-  if (!token) {
-    // Save to localStorage as buffer, show instructions
-    const d = { recipes, categories };
-    localStorage.setItem('recipe_cache', JSON.stringify(d));
-    setSyncStatus('orange', 'Saved locally — see note below');
-    showNoTokenGuide();
-    return;
-  }
-  await pushToGitHub(token);
-}
-
-async function pushToGitHub(token) {
-  setSyncStatus('orange', 'Saving to GitHub…');
+async function saveData() {
+  setSyncStatus('orange', 'Saving…');
   try {
-    const d    = { recipes, categories, lastUpdated: new Date().toISOString(), updatedBy: userName };
-    const body = JSON.stringify(d, null, 2);
-    const b64  = btoa(unescape(encodeURIComponent(body)));
-
-    // Get current SHA
-    const meta = await fetch(API_BASE + DATA_FILE, { headers: { Authorization: 'token ' + token } });
-    let sha = null;
-    if (meta.ok) { const m = await meta.json(); sha = m.sha; }
-
-    const payload = { message: `Update recipes by ${userName}`, content: b64 };
-    if (sha) payload.sha = sha;
-
-    const res = await fetch(API_BASE + DATA_FILE, {
-      method: 'PUT',
-      headers: { Authorization: 'token ' + token, 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+    const r = await fetch(BIN_URL, {
+      method:  'PUT',
+      headers: HEADERS,
+      body:    JSON.stringify({ recipes, categories, lastUpdated: new Date().toISOString(), updatedBy: userName })
     });
-    if (res.ok) {
-      localStorage.setItem('recipe_cache', JSON.stringify({ recipes, categories }));
-      setSyncStatus('green', 'Saved to GitHub ✓');
-      setLastSync();
-    } else {
-      throw new Error('GitHub API error: ' + res.status);
-    }
+    if (!r.ok) throw new Error('Save failed: ' + r.status);
+    localStorage.setItem('recipe_cache', JSON.stringify({ recipes, categories }));
+    setSyncStatus('green', 'Saved ✓');
+    setLastSync();
   } catch(e) {
-    setSyncStatus('red', 'Save failed');
-    showToast('❌ Could not save to GitHub');
+    setSyncStatus('red', 'Save failed — check connection');
+    showToast('❌ Could not save. Check your connection.');
   }
 }
 
 function scheduleSave() {
   clearTimeout(syncTimer);
-  setSyncStatus('orange', 'Unsaved changes…');
-  syncTimer = setTimeout(() => saveData(), 1500);
+  setSyncStatus('orange', 'Saving…');
+  syncTimer = setTimeout(() => saveData(), 1000);
 }
 
-async function syncNow() {
-  showToast('🔄 Syncing…');
-  await loadData();
-}
+async function syncNow() { showToast('🔄 Syncing…'); await loadData(); }
 
-// ══════════════════════════════════════════════════
-//  GITHUB TOKEN MODAL
-// ══════════════════════════════════════════════════
-function openTokenModal() {
-  const saved = localStorage.getItem('gh_token') || '';
-  document.getElementById('tokenInput').value = saved ? '••••••••••••••••••••' : '';
-  const status = document.getElementById('tokenStatus');
-  if (saved) {
-    status.innerHTML = '<span style="color:var(--green)">✅ Token saved on this device</span>';
-  } else {
-    status.innerHTML = '<span style="color:var(--muted)">No token saved yet — recipes save locally only</span>';
-  }
-  document.getElementById('tokenModal').classList.add('open');
-  if (!saved) setTimeout(() => document.getElementById('tokenInput').focus(), 300);
-}
-
-function closeTokenModal() {
-  document.getElementById('tokenModal').classList.remove('open');
-}
-
-function saveToken() {
-  const val = document.getElementById('tokenInput').value.trim();
-  if (!val || val.startsWith('•')) { showToast('⚠️ Please paste your token'); return; }
-  if (!val.startsWith('ghp_') && !val.startsWith('github_pat_')) {
-    showToast('⚠️ Token should start with ghp_ or github_pat_'); return;
-  }
-  localStorage.setItem('gh_token', val);
-  closeTokenModal();
-  showToast('✅ Token saved! Syncing now…');
-  // Push any pending local changes immediately
-  saveData();
-}
-
-function clearToken() {
-  if (!confirm('Remove saved GitHub token from this device?')) return;
-  localStorage.removeItem('gh_token');
-  closeTokenModal();
-  showToast('🗑 Token removed');
-}
-
-function showNoTokenGuide() {
-  // Only show once per session, not on every save
-  if (sessionStorage.getItem('token_tip_shown')) return;
-  sessionStorage.setItem('token_tip_shown', '1');
-  const tip = document.createElement('div');
-  tip.style.cssText = 'position:fixed;bottom:60px;left:50%;transform:translateX(-50%);background:var(--text);color:#fdf6ec;padding:12px 18px;border-radius:14px;font-size:12px;z-index:999;max-width:300px;text-align:center;line-height:1.6;cursor:pointer';
-  tip.innerHTML = `⚠️ Tap to add GitHub token for sync across devices`;
-  tip.onclick = () => { tip.remove(); toggleEditMode(); openTokenModal(); };
-  document.body.appendChild(tip);
-  setTimeout(() => { if (tip.parentNode) tip.remove(); }, 5000);
-}
-
-// ══════════════════════════════════════════════════
-//  SYNC UI
-// ══════════════════════════════════════════════════
-function setSyncStatus(c, msg) {
+function setSyncStatus(c, m) {
   document.getElementById('syncDot').className = 'dot ' + c;
-  document.getElementById('syncMsg').textContent = msg;
+  document.getElementById('syncMsg').textContent = m;
 }
 function setLastSync() {
   document.getElementById('syncTime').textContent = new Date().toLocaleTimeString();
 }
 
 // ══════════════════════════════════════════════════
-//  DEFAULT RECIPES
+//  OWNER PIN
 // ══════════════════════════════════════════════════
-function getDefaultRecipes() {
-  return [
-    { id:'r1', name:'Classic Spaghetti Carbonara', url:'https://www.youtube.com/watch?v=3AAdKl1UYZs', category:'Dinner',    notes:'Use guanciale for authentic flavor', favorite:true,  addedBy:'Ankit' },
-    { id:'r2', name:'Perfect Roast Chicken',       url:'https://www.youtube.com/watch?v=foCHjHd_dPI', category:'Lunch',     notes:'Pat dry before roasting',           favorite:false, addedBy:'Ankit' },
-    { id:'r3', name:'Chocolate Lava Cake',          url:'https://www.youtube.com/watch?v=BEI5R7bJSBo', category:'Dessert',   notes:'Do not over-bake!',                 favorite:true,  addedBy:'Ankit' },
-    { id:'r4', name:'Thai Green Curry',             url:'https://www.youtube.com/watch?v=PBQs4Hg0oIM', category:'Dinner',    notes:'Use full-fat coconut milk',         favorite:false, addedBy:'Ankit' },
-    { id:'r5', name:'Classic Pancakes',             url:'https://www.youtube.com/watch?v=bHBgqhS2hKg', category:'Breakfast', notes:'Rest batter for 5 mins',            favorite:false, addedBy:'Ankit' },
-  ];
+function openOwnerPin() {
+  if (isOwner) {
+    // Already owner — show options to lock or change PIN
+    if (confirm('You are the owner. Lock owner mode on this device?')) {
+      isOwner = false;
+      localStorage.removeItem('is_owner');
+      document.getElementById('ownerBadge').style.display = 'none';
+      document.getElementById('editHint').textContent = 'Tap 🗑 on any recipe card to delete it (owner only)';
+      render();
+      showToast('🔒 Owner mode locked');
+    }
+    return;
+  }
+  document.getElementById('pinInput').value = '';
+  document.getElementById('pinError').style.display = 'none';
+  document.getElementById('ownerPinModal').classList.add('open');
+  setTimeout(() => document.getElementById('pinInput').focus(), 300);
+}
+
+function closeOwnerPin() { document.getElementById('ownerPinModal').classList.remove('open'); }
+
+function checkOwnerPin() {
+  const entered = document.getElementById('pinInput').value;
+  ownerPin = localStorage.getItem('owner_pin') || '1234';
+  if (entered === ownerPin) {
+    isOwner = true;
+    localStorage.setItem('is_owner', 'true');
+    closeOwnerPin();
+    document.getElementById('ownerBadge').style.display = 'inline-block';
+    document.getElementById('editHint').textContent = '🔓 Owner mode — tap 🗑 on any card to delete';
+    render();
+    showToast('✅ Owner mode unlocked!');
+  } else {
+    document.getElementById('pinError').style.display = 'block';
+    document.getElementById('pinInput').value = '';
+  }
+}
+
+function openChangePin() {
+  closeOwnerPin();
+  document.getElementById('oldPinInput').value = '';
+  document.getElementById('newPinInput').value = '';
+  document.getElementById('changePinError').style.display = 'none';
+  document.getElementById('changePinModal').classList.add('open');
+}
+function closeChangePin() { document.getElementById('changePinModal').classList.remove('open'); }
+
+function confirmChangePin() {
+  const old  = document.getElementById('oldPinInput').value;
+  const nw   = document.getElementById('newPinInput').value.trim();
+  const errEl = document.getElementById('changePinError');
+  ownerPin = localStorage.getItem('owner_pin') || '1234';
+  if (old !== ownerPin) { errEl.textContent = '❌ Current PIN is wrong'; errEl.style.display = 'block'; return; }
+  if (nw.length < 4)   { errEl.textContent = '❌ New PIN must be at least 4 characters'; errEl.style.display = 'block'; return; }
+  localStorage.setItem('owner_pin', nw);
+  closeChangePin();
+  showToast('✅ PIN changed successfully');
 }
 
 // ══════════════════════════════════════════════════
@@ -542,90 +514,72 @@ function getDefaultRecipes() {
 function extractVid(url) {
   for (const p of [/[?&]v=([^&#]+)/,/youtu\.be\/([^?&#]+)/,/\/embed\/([^?&#]+)/,/\/shorts\/([^?&#]+)/]) {
     const m = url.match(p); if (m) return m[1];
-  }
-  return null;
+  } return null;
 }
 function thumbUrl(url) { const id = extractVid(url); return id ? `https://img.youtube.com/vi/${id}/mqdefault.jpg` : null; }
 
 // ══════════════════════════════════════════════════
 //  CATEGORIES
 // ══════════════════════════════════════════════════
+function recipeCats(r) {
+  if (Array.isArray(r.categories) && r.categories.length) return r.categories;
+  if (r.category) return [r.category];
+  return [];
+}
+
 function renderChips() {
-  const all = ['All', ...categories];
-  document.getElementById('chipsBar').innerHTML = all.map(c =>
+  document.getElementById('chipsBar').innerHTML = ['All',...categories].map(c =>
     `<button class="chip ${c===currentCat?'active':''}" onclick="setCategory('${c}')">${c}</button>`
   ).join('');
 }
-
-// Render the multi-select chip picker inside the add/edit modal
-let selectedCats = []; // currently selected categories in the form
-
-function renderCatPicker(preselected = []) {
-  selectedCats = Array.isArray(preselected) ? [...preselected]
-    : (preselected ? [preselected] : []); // backwards compat: string → array
-  const picker = document.getElementById('catPicker');
-  picker.innerHTML = categories.map(c => `
-    <div class="cat-pick-chip ${selectedCats.includes(c)?'selected':''}"
-         onclick="toggleCatPick('${c}')">${c}</div>
-  `).join('');
-  updateCatPickHint();
-}
-
-function toggleCatPick(cat) {
-  const idx = selectedCats.indexOf(cat);
-  if (idx === -1) selectedCats.push(cat);
-  else selectedCats.splice(idx, 1);
-  // update chip visuals
-  document.querySelectorAll('.cat-pick-chip').forEach(el => {
-    el.classList.toggle('selected', selectedCats.includes(el.textContent));
-  });
-  updateCatPickHint();
-}
-
-function updateCatPickHint() {
-  const hint = document.getElementById('catPickHint');
-  if (!hint) return;
-  hint.textContent = selectedCats.length === 0
-    ? 'None selected'
-    : `Selected: ${selectedCats.join(', ')}`;
-}
-
 function setCategory(c) { currentCat = c; render(); }
 
-// ── CATEGORY MANAGER ──────────────────────────────
-function openCategoryManager() {
-  renderCatManager();
-  document.getElementById('catModal').classList.add('open');
-  setTimeout(() => document.getElementById('newCatInput').focus(), 300);
+// Multi-select category picker in add/edit form
+function renderCatPicker(preselected = []) {
+  selectedCats = Array.isArray(preselected) ? [...preselected] : (preselected ? [preselected] : []);
+  document.getElementById('catPicker').innerHTML = categories.map(c =>
+    `<div class="cat-pick-chip ${selectedCats.includes(c)?'selected':''}" onclick="toggleCatPick('${c}')">${c}</div>`
+  ).join('');
+  updateCatPickHint();
 }
+function toggleCatPick(cat) {
+  const i = selectedCats.indexOf(cat);
+  if (i === -1) selectedCats.push(cat); else selectedCats.splice(i, 1);
+  document.querySelectorAll('.cat-pick-chip').forEach(el =>
+    el.classList.toggle('selected', selectedCats.includes(el.textContent))
+  );
+  updateCatPickHint();
+}
+function updateCatPickHint() {
+  const h = document.getElementById('catPickHint');
+  if (h) h.textContent = selectedCats.length === 0 ? 'None selected' : 'Selected: ' + selectedCats.join(', ');
+}
+
+// Category Manager
+function openCategoryManager() { renderCatManager(); document.getElementById('catModal').classList.add('open'); setTimeout(()=>document.getElementById('newCatInput').focus(),300); }
 function closeCatModal() { document.getElementById('catModal').classList.remove('open'); }
 
 function renderCatManager() {
   const list = document.getElementById('catList');
-  if (categories.length === 0) {
-    list.innerHTML = `<div style="text-align:center;color:var(--muted);padding:16px 0;font-size:13px">No categories yet. Add one below!</div>`;
-    return;
-  }
+  if (!categories.length) { list.innerHTML = `<div style="text-align:center;color:var(--muted);padding:16px 0;font-size:13px">No categories yet.</div>`; return; }
   list.innerHTML = categories.map((c,i) => `
     <div class="cat-row">
-      <div class="cat-row-name"><span class="cat-row-emoji">🏷️</span>${c}</div>
+      <div class="cat-row-name">🏷️ ${c}</div>
       <div class="cat-row-actions">
-        <button class="cat-action-btn" onclick="startRenameCategory(${i})" title="Rename">✏️</button>
-        <button class="cat-action-btn red" onclick="deleteCategory(${i})" title="Delete">🗑</button>
+        <button class="cat-action-btn" onclick="startRenameCategory(${i})">✏️</button>
+        <button class="cat-action-btn red" onclick="deleteCategory(${i})">🗑</button>
       </div>
     </div>`).join('');
 }
 
 function addCategory() {
-  const input = document.getElementById('newCatInput');
-  const name  = input.value.trim();
+  const inp  = document.getElementById('newCatInput');
+  const name = inp.value.trim();
   if (!name) { showToast('⚠️ Enter a category name'); return; }
-  if (categories.includes(name)) { showToast('⚠️ Category already exists'); return; }
+  if (categories.includes(name)) { showToast('⚠️ Already exists'); return; }
   categories.push(name);
-  input.value = '';
-  renderCatManager();
-  renderChips();
-  scheduleSave();
+  inp.value = '';
+  renderCatManager(); renderChips(); scheduleSave();
   showToast('✅ Category added: ' + name);
 }
 
@@ -640,61 +594,42 @@ function closeRenameCat() { document.getElementById('renameCatModal').classList.
 function confirmRenameCategory() {
   const newName = document.getElementById('renameCatInput').value.trim();
   if (!newName) { showToast('⚠️ Enter a name'); return; }
-  if (categories.includes(newName) && newName !== categories[renamingCat]) { showToast('⚠️ Name already exists'); return; }
-  const oldName = categories[renamingCat];
+  if (categories.includes(newName) && newName !== categories[renamingCat]) { showToast('⚠️ Already exists'); return; }
+  const old = categories[renamingCat];
   categories[renamingCat] = newName;
-  // Update all recipes — handle both array and string format
   recipes.forEach(r => {
-    if (Array.isArray(r.categories)) {
-      const i = r.categories.indexOf(oldName); if (i>-1) r.categories[i] = newName;
-    }
-    if (r.category === oldName) r.category = newName;
+    if (Array.isArray(r.categories)) { const i = r.categories.indexOf(old); if (i>-1) r.categories[i]=newName; }
+    if (r.category === old) r.category = newName;
   });
   closeRenameCat(); closeCatModal(); openCategoryManager();
   renderChips(); render(); scheduleSave();
-  showToast(`✅ Renamed "${oldName}" → "${newName}"`);
+  showToast(`✅ Renamed "${old}" → "${newName}"`);
 }
 
 function deleteCategory(idx) {
   const name  = categories[idx];
   const count = recipes.filter(r => recipeCats(r).includes(name)).length;
-  const msg   = count > 0
-    ? `Delete "${name}"? ${count} recipe(s) will lose this category.`
-    : `Delete category "${name}"?`;
-  if (!confirm(msg)) return;
+  if (!confirm(`Delete "${name}"?${count>0?' '+count+' recipe(s) will lose this category.':''}`)) return;
   categories.splice(idx, 1);
-  // Remove from all recipe category arrays
   recipes.forEach(r => {
-    if (Array.isArray(r.categories)) r.categories = r.categories.filter(c => c !== name);
+    if (Array.isArray(r.categories)) r.categories = r.categories.filter(c=>c!==name);
     if (r.category === name) r.category = r.categories?.[0] || '';
   });
   if (currentCat === name) currentCat = 'All';
   renderCatManager(); renderChips(); render(); scheduleSave();
-  showToast(`🗑 Category "${name}" deleted`);
+  showToast(`🗑 "${name}" deleted`);
 }
 
 // ══════════════════════════════════════════════════
 //  FILTER & RENDER
 // ══════════════════════════════════════════════════
-function recipeCats(r) {
-  // Support both new array format and old single string
-  if (Array.isArray(r.categories) && r.categories.length) return r.categories;
-  if (r.category) return [r.category];
-  return [];
-}
-
 function filtered() {
   const q = document.getElementById('searchInput').value.toLowerCase().trim();
   return recipes.filter(r => {
-    const cats     = recipeCats(r);
-    const matchTab = currentTab==='all' || r.favorite;
-    const matchCat = currentCat==='All' || cats.includes(currentCat);
-    const matchQ   = !q
-      || r.name.toLowerCase().includes(q)
-      || cats.join(' ').toLowerCase().includes(q)
-      || (r.notes||'').toLowerCase().includes(q)
-      || (r.addedBy||'').toLowerCase().includes(q);
-    return matchTab && matchCat && matchQ;
+    const cats = recipeCats(r);
+    return (currentTab==='all' || r.favorite)
+      && (currentCat==='All' || cats.includes(currentCat))
+      && (!q || r.name.toLowerCase().includes(q) || cats.join(' ').toLowerCase().includes(q) || (r.notes||'').toLowerCase().includes(q) || (r.addedBy||'').toLowerCase().includes(q));
   });
 }
 
@@ -706,7 +641,7 @@ function render() {
   document.getElementById('noResults').style.display = list.length===0 && recipes.length>0 ? 'block':'none';
 
   if (list.length===0 && recipes.length===0) {
-    grid.innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="icon">👨‍🍳</div><h3>No recipes yet!</h3><p>Tap <strong>+ Add</strong> to add your first recipe.</p></div>`;
+    grid.innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="icon">👨‍🍳</div><h3>No recipes yet!</h3><p>Tap <strong>+ Add</strong> to add the first recipe!</p></div>`;
     return;
   }
   grid.innerHTML = list.map(r => {
@@ -715,19 +650,18 @@ function render() {
       ? `<img class="card-thumb" src="${t}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy"/><div class="card-ph" style="display:none">🎬</div>`
       : `<div class="card-ph">🎬</div>`;
     const cats = recipeCats(r);
-    const catTags = cats.map(c => `<span class="tag">${c}</span>`).join('');
     return `<div class="recipe-card ${editMode?'edit-mode':''}" onclick="playRecipe('${r.id}')">
       ${thumbHtml}
       <div class="play-ov">▶</div>
-      <button class="del-btn" onclick="deleteRecipe(event,'${r.id}')">🗑</button>
+      ${isOwner ? `<button class="del-btn" onclick="deleteRecipe(event,'${r.id}')">🗑</button>` : ''}
       <div class="card-body">
         <div class="card-title">${r.name}</div>
         <div class="card-meta">
-          ${catTags}
+          ${cats.map(c=>`<span class="tag">${c}</span>`).join('')}
           ${r.favorite?`<span class="tag" style="background:#fce4ec;color:#c0392b">⭐</span>`:''}
         </div>
         ${r.notes?`<div class="card-desc">${r.notes}</div>`:''}
-        ${r.addedBy?`<div class="added-by">Added by <span class="adder-badge">${r.addedBy}</span></div>`:''}
+        ${r.addedBy?`<div class="added-by">by <span class="adder-badge">${r.addedBy}</span></div>`:''}
       </div>
     </div>`;
   }).join('');
@@ -739,7 +673,7 @@ function render() {
 function playRecipe(id) {
   if (editMode) return;
   const r = recipes.find(x=>x.id===id); if (!r) return;
-  const vid = extractVid(r.url); if (!vid) { showToast('❌ Invalid YouTube URL'); return; }
+  const vid = extractVid(r.url); if (!vid) { showToast('❌ Invalid URL'); return; }
   document.getElementById('videoTitle').textContent = r.name;
   document.getElementById('psThumb').style.backgroundImage = `url(https://img.youtube.com/vi/${vid}/mqdefault.jpg)`;
   document.getElementById('videoModal').classList.add('open');
@@ -755,12 +689,11 @@ function closeVideo()    { document.getElementById('videoModal').classList.remov
 function openAddModal(id=null) {
   editingId = id;
   const r = id ? recipes.find(x=>x.id===id) : null;
-  document.getElementById('modalHeading').textContent = r?'Edit Recipe':'Add New Recipe';
-  document.getElementById('fName').value  = r?r.name    :'';
-  document.getElementById('fUrl').value   = r?r.url     :'';
-  document.getElementById('fNotes').value = r?r.notes   :'';
-  document.getElementById('fFav').checked = r?r.favorite:false;
-  // Support both old single string and new array format
+  document.getElementById('modalHeading').textContent = r ? 'Edit Recipe' : 'Add New Recipe';
+  document.getElementById('fName').value  = r ? r.name    : '';
+  document.getElementById('fUrl').value   = r ? r.url     : '';
+  document.getElementById('fNotes').value = r ? r.notes   : '';
+  document.getElementById('fFav').checked = r ? r.favorite: false;
   const preCats = r ? (Array.isArray(r.categories) ? r.categories : (r.category ? [r.category] : [])) : [];
   renderCatPicker(preCats);
   document.getElementById('addModal').classList.add('open');
@@ -771,53 +704,52 @@ function closeAddModal() { document.getElementById('addModal').classList.remove(
 function saveRecipe() {
   const name = document.getElementById('fName').value.trim();
   const url  = document.getElementById('fUrl').value.trim();
-  if (!name)                     { showToast('⚠️ Please enter a recipe name');        return; }
-  if (!url || !extractVid(url))  { showToast('⚠️ Please enter a valid YouTube URL'); return; }
+  if (!name)                    { showToast('⚠️ Please enter a recipe name');        return; }
+  if (!url || !extractVid(url)) { showToast('⚠️ Please enter a valid YouTube URL'); return; }
   const data = {
     name, url,
-    categories: selectedCats,           // array of categories
-    category:   selectedCats[0] || '',  // backwards compat: keep first as primary
+    categories: selectedCats,
+    category:   selectedCats[0] || '',
     notes:    document.getElementById('fNotes').value.trim(),
     favorite: document.getElementById('fFav').checked,
     addedBy:  userName,
+    addedAt:  new Date().toISOString(),
   };
   if (editingId) { Object.assign(recipes.find(x=>x.id===editingId), data); }
-  else           { recipes.push({ id:'r'+Date.now(), ...data }); }
+  else           { recipes.push({ id: 'r' + Date.now(), ...data }); }
   closeAddModal(); render();
-  showToast(editingId?'✅ Recipe updated!':'✅ Recipe added!');
+  showToast(editingId ? '✅ Recipe updated!' : '✅ Recipe added!');
   scheduleSave();
 }
 
 function deleteRecipe(e, id) {
   e.stopPropagation();
+  if (!isOwner) { showToast('🔐 Owner PIN required to delete'); return; }
   if (!confirm('Delete this recipe?')) return;
   recipes = recipes.filter(r=>r.id!==id);
   render(); showToast('🗑 Recipe deleted'); scheduleSave();
 }
 
 // ══════════════════════════════════════════════════
-//  EDIT MODE
+//  EDIT MODE / SEARCH / TABS
 // ══════════════════════════════════════════════════
 function toggleEditMode() {
   editMode = !editMode;
-  document.getElementById('editBtn').textContent     = editMode?'✅ Done':'✏️ Edit';
-  document.getElementById('editBtn').className       = editMode?'hbtn active':'hbtn';
-  document.getElementById('editPanel').style.display = editMode?'block':'none';
+  document.getElementById('editBtn').textContent = editMode ? '✅ Done' : '✏️ Edit';
+  document.getElementById('editBtn').className   = editMode ? 'hbtn active' : 'hbtn';
+  document.getElementById('editPanel').style.display = editMode ? 'block' : 'none';
+  document.getElementById('ownerBadge').style.display = (editMode && isOwner) ? 'inline-block' : 'none';
   render();
 }
-
-// ══════════════════════════════════════════════════
-//  SEARCH / TABS
-// ══════════════════════════════════════════════════
 function onSearch(v) { document.getElementById('clearBtn').style.display=v?'block':'none'; render(); }
 function clearSearch() { document.getElementById('searchInput').value=''; document.getElementById('clearBtn').style.display='none'; render(); }
 function switchTab(tab) {
-  currentTab=tab;
-  ['tabAll','tabFav'].forEach(id => document.getElementById(id).classList.remove('active'));
-  document.getElementById(tab==='all'?'tabAll':'tabFav').classList.add('active');
+  currentTab = tab;
+  document.getElementById('tabAll').classList.toggle('active', tab==='all');
+  document.getElementById('tabFav').classList.toggle('active', tab==='favorites');
   document.querySelector('.section-title').innerHTML = tab==='all'
-    ?`<span>📋</span> All Recipes <span class="badge" id="countBadge">0</span>`
-    :`<span>⭐</span> Favorites <span class="badge" id="countBadge">0</span>`;
+    ? `<span>📋</span> All Recipes <span class="badge" id="countBadge">0</span>`
+    : `<span>⭐</span> Favorites <span class="badge" id="countBadge">0</span>`;
   render();
 }
 
@@ -825,25 +757,21 @@ function switchTab(tab) {
 //  TOAST
 // ══════════════════════════════════════════════════
 function showToast(msg) {
-  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2800);
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
 }
 
 // ══════════════════════════════════════════════════
-//  KEYBOARD
+//  KEYBOARD + AUTO REFRESH
 // ══════════════════════════════════════════════════
 document.addEventListener('keydown', e => {
-  if (e.key==='Escape') { closeVideo(); closeAddModal(); closeCatModal(); closeRenameCat(); closeTokenModal(); }
+  if (e.key==='Escape') { closeVideo(); closeAddModal(); closeCatModal(); closeRenameCat(); closeOwnerPin(); closeChangePin(); }
 });
 
-// ══════════════════════════════════════════════════
-//  AUTO REFRESH every 60s (to pick up others' changes)
-// ══════════════════════════════════════════════════
+// Auto-refresh every 60s to pick up others' additions
 setInterval(() => { if (!editMode) loadData(); }, 60000);
 
-// ══════════════════════════════════════════════════
-//  SERVICE WORKER
-// ══════════════════════════════════════════════════
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>

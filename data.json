@@ -44,107 +44,6 @@
       "notes": "Rest batter for 5 mins",
       "favorite": false,
       "addedBy": "Ankit"
-    },
-    {
-      "id": "r1774256367476",
-      "name": "ankit test",
-      "url": "https://youtu.be/RBxCAQ2UKfE?si=WaxGH8IY6nW56TJ8",
-      "categories": [
-        "Lunch",
-        "Breakfast",
-        "Dinner"
-      ],
-      "category": "Lunch",
-      "notes": "",
-      "favorite": true,
-      "addedBy": "Ankit"
-    },
-    {
-      "id": "r1774256708582",
-      "name": "ankit test2",
-      "url": "https://youtu.be/zL2uFVUJ3uo?si=W50__YMi1NZz_lbZ",
-      "categories": [
-        "Breakfast"
-      ],
-      "category": "Breakfast",
-      "notes": "",
-      "favorite": true,
-      "addedBy": "Ankit"
-    },
-    {
-      "id": "r1774257051556",
-      "name": "v test",
-      "url": "https://youtu.be/epOZ-WPO3h8?si=orrwyE3kkqNlijcJ",
-      "categories": [
-        "Breakfast"
-      ],
-      "category": "Breakfast",
-      "notes": "",
-      "favorite": false,
-      "addedBy": "V"
-    },
-    {
-      "id": "r1774257325476",
-      "name": "ankit test3",
-      "url": "https://youtu.be/XmO_IvaDKjU?si=X-9V1qKfpAsl5GzN",
-      "categories": [],
-      "category": "",
-      "notes": "",
-      "favorite": false,
-      "addedBy": "Ankit"
-    },
-    {
-      "id": "r1774257537123",
-      "name": "ankit test4",
-      "url": "https://youtu.be/XmO_IvaDKjU?si=X-9V1qKfpAsl5GzN",
-      "categories": [],
-      "category": "",
-      "notes": "",
-      "favorite": true,
-      "addedBy": "Ankit"
-    },
-    {
-      "id": "r1774257750197",
-      "name": "Rodent burrito",
-      "url": "https://youtu.be/WwGn7085gZo?si=BcztRauJanTYZHzL",
-      "categories": [
-        "Snacks",
-        "Dinner"
-      ],
-      "category": "Snacks",
-      "notes": "Nice",
-      "favorite": false,
-      "addedBy": "V"
-    },
-    {
-      "id": "r1774258572602",
-      "name": "Ankit test5",
-      "url": "https://youtube.com/shorts/Z9dT9EZpkJs?si=XiIyZhGCKfOEVuLn",
-      "categories": [],
-      "category": "",
-      "notes": "",
-      "favorite": true,
-      "addedBy": "Ankit"
-    },
-    {
-      "id": "r1774258875356",
-      "name": "Ankit test6",
-      "url": "https://youtube.com/shorts/Z9dT9EZpkJs?si=XiIyZhGCKfOEVuLn",
-      "categories": [],
-      "category": "",
-      "notes": "",
-      "favorite": false,
-      "addedBy": "Ankit"
-    },
-    {
-      "id": "r1774259514545",
-      "name": "ankit test7",
-      "url": "https://youtu.be/XmO_IvaDKjU?si=X-9V1qKfpAsl5GzN",
-      "categories": [],
-      "category": "",
-      "notes": "abc sdkfjsdkfjsdf\n asdfksa fjskfj s\nas dask;das klskf \nEFDL KfsKF LSDKFSDF\n sflk slfkselfksd lkfdsf",
-      "favorite": false,
-      "addedBy": "Ankit"
     }
   ],
   "categories": [
@@ -156,6 +55,6 @@
     "Vegetarian",
     "Drinks"
   ],
-  "lastUpdated": "2026-03-23T09:51:56.049Z",
+  "lastUpdated": "2026-03-23T00:00:00.000Z",
   "updatedBy": "Ankit"
 }
