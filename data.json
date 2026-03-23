@@ -92,18 +92,6 @@
       "notes": "",
       "favorite": false,
       "addedBy": "Ankit"
-    },
-    {
-      "id": "r1774257456578",
-      "name": "ankit test4",
-      "url": "https://youtu.be/XmO_IvaDKjU?si=X-9V1qKfpAsl5GzN",
-      "categories": [
-        "Lunch"
-      ],
-      "category": "Lunch",
-      "notes": "",
-      "favorite": true,
-      "addedBy": "Ankit"
     }
   ],
   "categories": [
@@ -115,6 +103,6 @@
     "Vegetarian",
     "Drinks"
   ],
-  "lastUpdated": "2026-03-23T09:17:38.089Z",
+  "lastUpdated": "2026-03-23T09:18:40.916Z",
   "updatedBy": "Ankit"
 }
