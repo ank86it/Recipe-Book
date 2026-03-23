@@ -1,0 +1,60 @@
+{
+  "recipes": [
+    {
+      "id": "r1",
+      "name": "Classic Spaghetti Carbonara",
+      "url": "https://www.youtube.com/watch?v=3AAdKl1UYZs",
+      "category": "Dinner",
+      "notes": "Use guanciale for authentic flavor",
+      "favorite": true,
+      "addedBy": "Ankit"
+    },
+    {
+      "id": "r2",
+      "name": "Perfect Roast Chicken",
+      "url": "https://www.youtube.com/watch?v=foCHjHd_dPI",
+      "category": "Lunch",
+      "notes": "Pat dry before roasting",
+      "favorite": false,
+      "addedBy": "Ankit"
+    },
+    {
+      "id": "r3",
+      "name": "Chocolate Lava Cake",
+      "url": "https://www.youtube.com/watch?v=BEI5R7bJSBo",
+      "category": "Dessert",
+      "notes": "Do not over-bake!",
+      "favorite": true,
+      "addedBy": "Ankit"
+    },
+    {
+      "id": "r4",
+      "name": "Thai Green Curry",
+      "url": "https://www.youtube.com/watch?v=PBQs4Hg0oIM",
+      "category": "Dinner",
+      "notes": "Use full-fat coconut milk",
+      "favorite": false,
+      "addedBy": "Ankit"
+    },
+    {
+      "id": "r5",
+      "name": "Classic Pancakes",
+      "url": "https://www.youtube.com/watch?v=bHBgqhS2hKg",
+      "category": "Breakfast",
+      "notes": "Rest batter for 5 mins",
+      "favorite": false,
+      "addedBy": "Ankit"
+    }
+  ],
+  "categories": [
+    "Breakfast",
+    "Lunch",
+    "Dinner",
+    "Dessert",
+    "Snacks",
+    "Vegetarian",
+    "Drinks"
+  ],
+  "lastUpdated": "2026-03-23T00:00:00.000Z",
+  "updatedBy": "Ankit"
+}
